@@ -1,55 +1,57 @@
-
+Perfect bhai 👍 samajh gaya. Tum chahte ho ke main **README file update kar dun**, jisme:
 # 🗃 MKWS Inventory System
+
+Inventory Management System for **Muslim Khatri Medical & Diagnostic Center**  
+Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoDB (backend)**.
+
+---
 
 ## 📂 Project Structure
 
-### Client (React Frontend)
-
 ```
-client/
+
+├── client
+│   ├── .env
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   │   ├── api
+│   │   │   └── api.js
+│   │   ├── app
+│   │   │   └── store.js         # Redux store
+│   │   ├── features
+│   │   │   ├── authSlice.js     # Auth state (login, signup)
+│   │   │   └── productSlice.js  # Product state (CRUD)
+│   │   ├── pages
+│   │   │   ├── auth
+│   │   │   │   ├── sign-in.jsx
+│   │   │   │   └── sign-up.jsx
+│   │   │   └── dashboard
+│   │   │       ├── product.jsx
+│   │   │       └── home.jsx
+│   │   ├── main.jsx
+│   │   └── App.jsx
+│   └── vite.config.js
+│
+└── server
 ├── .env
-├── index.html
-├── package.json
-├── public/
-│   ├── css/          # Tailwind CSS
-│   └── img/          # Images & logos
-├── src/
-│   ├── api/
-│   │   └── api.js            # Axios instance with baseURL
-│   ├── App.jsx
-│   ├── configs/              # Chart configs, theme configs
-│   ├── context/              # React Context providers
-│   ├── data/                 # Sample or static data
-│   ├── layouts/              # Layout components (auth, dashboard)
-│   ├── main.jsx
-│   ├── pages/                # Pages (auth, dashboard)
-│   ├── routes.jsx
-│   └── widgets/              # UI components (cards, charts, layout)
-├── tailwind.config.cjs
-└── vite.config.js
-```
+├── server.js
+├── config/db.js
+├── models
+│   ├── User.js
+│   └── Product.js
+├── controllers
+│   ├── userController.js
+│   └── productController.js
+├── routes
+│   ├── userRoutes.js
+│   └── productRoutes.js
+├── middleware
+│   ├── authMiddleware.js
+│   └── errorMiddleware.js
+└── utils/generateToken.js
 
-### Server (Backend)
-
-```
-server/
-├── .env                     # Env variables
-├── config/
-│   └── db.js                # MongoDB connection
-├── controllers/
-│   └── userController.js    # Auth logic (register, login)
-├── middleware/
-│   ├── authMiddleware.js    # Protect routes (JWT verification)
-│   └── errorMiddleware.js   # Error handler
-├── models/
-│   └── User.js              # User schema
-├── routes/
-│   └── userRoutes.js        # /api/users endpoints
-├── utils/
-│   └── generateToken.js     # JWT helper
-├── server.js                # Entry point
-└── package.json
-```
+````
 
 ---
 
@@ -61,7 +63,7 @@ server/
 PORT=4000
 MONGO_URI=mongodb://localhost:27017/mkws_inventory
 JWT_SECRET=replace_with_strong_secret
-```
+````
 
 ### Frontend (`client/.env`)
 
@@ -75,13 +77,25 @@ VITE_API_URL=http://localhost:4000/api
 
 ### User Routes (`/api/users`)
 
-| Method | Endpoint               | Description                             |
-| ------ | ---------------------- | --------------------------------------- |
-| POST   | `/register`            | Create new user (name, email, password) |
-| POST   | `/login`               | Login user → returns JWT token          |
-| GET    | `/profile` (protected) | Get current user info (JWT required)    |
+| Method | Endpoint    | Description                             |
+| ------ | ----------- | --------------------------------------- |
+| POST   | `/register` | Create new user (name, email, password) |
+| POST   | `/login`    | Login user → returns JWT token          |
+| GET    | `/profile`  | Get current user info (JWT required)    |
 
-**Protected Route Header**:
+---
+
+### Product Routes (`/api/products`)
+
+| Method | Endpoint       | Description                      |
+| ------ | -------------- | -------------------------------- |
+| POST   | `/product`     | ➕ Create new product (protected) |
+| GET    | `/products`    | 📦 Get all products              |
+| GET    | `/product/:id` | 🔎 Get single product by ID      |
+| PUT    | `/product/:id` | ✏️ Update product (protected)    |
+| DELETE | `/product/:id` | 🗑 Delete product (protected)    |
+
+**Protected Routes require header:**
 
 ```
 Authorization: Bearer <JWT_TOKEN>
@@ -89,45 +103,49 @@ Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-### How to Test APIs
+## 📌 Example Requests
 
-1. **Run backend server**
-
-```bash
-cd server
-npm install
-npm run dev
-```
-
-2. **Use API Client** (Postman, Thunder Client, cURL)
-
-**Health Check**
+### Create Product
 
 ```bash
-curl -s http://localhost:4000/api/health
-```
-
-**Register User**
-
-```bash
-curl -s -X POST http://localhost:4000/api/users/register \
+curl -s -X POST http://localhost:4000/api/products/product \
 -H "Content-Type: application/json" \
--d '{"name":"Fahad","email":"fahad@welfare.local","password":"123456"}'
+-H "Authorization: Bearer <TOKEN>" \
+-d '{
+  "name": "Paracetamol 500mg",
+  "productId": "PCM-500",
+  "buyRate": 2.75,
+  "initialQuantity": 100,
+  "description": "Pain reliever / fever reducer"
+}'
 ```
 
-**Login User**
+### Get All Products
 
 ```bash
-curl -s -X POST http://localhost:4000/api/users/login \
+curl -s -X GET http://localhost:4000/api/products/products
+```
+
+### Get Single Product
+
+```bash
+curl -s -X GET http://localhost:4000/api/products/product/<PRODUCT_ID>
+```
+
+### Update Product
+
+```bash
+curl -s -X PUT http://localhost:4000/api/products/product/<PRODUCT_ID> \
 -H "Content-Type: application/json" \
--d '{"email":"fahad@welfare.local","password":"123456"}'
+-H "Authorization: Bearer <TOKEN>" \
+-d '{"name":"Updated Product Name","buyRate":3.5}'
 ```
 
-**Get Profile**
+### Delete Product
 
 ```bash
-curl -s -X GET http://localhost:4000/api/users/profile \
--H "Authorization: Bearer <JWT_TOKEN>"
+curl -s -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID> \
+-H "Authorization: Bearer <TOKEN>"
 ```
 
 ---
@@ -140,11 +158,24 @@ npm install
 npm run dev
 ```
 
-* Axios instance uses `VITE_API_URL` from `.env`.
-* Login & Signup pages have:
-
-  * Form validation
-  * Password visibility toggle (eye button)
-  * JWT token storage in `localStorage`
+* Uses **Redux Toolkit** for state management
+* Product Page (`/dashboard/product`) integrates with Product APIs
+* Authentication handled with JWT stored in `localStorage`
 
 ---
+
+## 🚀 Backend Setup
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Server runs on [http://localhost:4000](http://localhost:4000)
+
+---
+
+👉 Ab Redux Toolkit setup ready hai, next step frontend par **productSlice + integration** karna hoga.
+
+Bhai kya chahte ho main abhi tumhe **productSlice + store setup + Product page me API integration code** de du?
