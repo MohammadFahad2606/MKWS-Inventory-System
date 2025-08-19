@@ -1,59 +1,92 @@
-import React, { useState } from "react";
-import { Card, CardBody, Typography, Button, Input, Textarea, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { Typography, Button } from "@material-tailwind/react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts, createProduct, updateProduct, deleteProduct } from "../../redux/productSlice";
+import ProductModal from "./ProductModal";
+import ProductList from "./ProductList";
+import ProductDetailModal from "./ProductDetailModal";
 
 export function Product() {
-  const [open, setOpen] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
-  const toggleModal = () => setOpen(!open);
+  const dispatch = useDispatch();
+  const { items, loading, error } = useSelector((state) => state.products);
 
-  const onSubmit = (data) => {
-    console.log("Product Data:", data);
-    reset();
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const toggleModal = () => setModalOpen(!modalOpen);
+  const toggleDetail = () => setDetailOpen(!detailOpen);
+
+  const handleSubmit = (data) => {
+    if (editingProduct) {
+      dispatch(updateProduct({ id: editingProduct._id, data }));
+    } else {
+      dispatch(createProduct(data));
+    }
+    setEditingProduct(null);
     toggleModal();
+  };
+
+  const handleShow = (product) => {
+    setSelectedProduct(product);
+    toggleDetail();
+  };
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+    toggleModal();
+    toggleDetail(); // close detail modal when editing
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      dispatch(deleteProduct(id));
+      toggleDetail();
+    }
+  };
+
+  const handleTransaction = (product) => {
+    console.log("Transaction logic for:", product);
+    // yahan aap In/Out modal bana ke use karenge
   };
 
   return (
     <div className="p-4">
-      {/* Top Header */}
       <div className="flex justify-between items-center mb-6">
-        <Typography variant="h4" className="font-bold">
-          Products
-        </Typography>
-        <Button color="blue" onClick={toggleModal}>
-          + Add New
-        </Button>
+        <Typography variant="h4" className="font-bold">Products</Typography>
+        <Button color="blue" onClick={toggleModal}>+ Add New</Button>
       </div>
 
-      {/* Products List Dummy */}
-      <Card className="mb-6">
-        <CardBody>
-          <Typography>No products yet. Add new products using +Add New button.</Typography>
-        </CardBody>
-      </Card>
+      {loading ? (
+        <Typography>Loading...</Typography>
+      ) : error ? (
+        <Typography color="red">{error}</Typography>
+      ) : (
+        <ProductList products={items} onShow={handleShow} />
+      )}
 
-      {/* Modal Form */}
-      <Dialog open={open} size="sm" handler={toggleModal}>
-        <DialogHeader>Add New Product</DialogHeader>
-        <DialogBody divider>
-          <form id="product-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <Input label="Product Name" {...register("name", { required: true })} />
-            <Input label="Product ID" {...register("id", { required: true })} />
-            <Input type="number" label="Buy Rate" {...register("buyRate", { required: true })} />
-            <Input type="number" label="Initial Quantity" {...register("quantity", { required: true })} />
-            <Textarea label="Description" {...register("description")} />
-          </form>
-        </DialogBody>
-        <DialogFooter>
-          <Button variant="text" color="red" onClick={toggleModal}>
-            Cancel
-          </Button>
-          <Button form="product-form" type="submit" color="green">
-            Save
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      {/* Add / Edit Modal */}
+      <ProductModal
+        open={modalOpen}
+        toggle={toggleModal}
+        onSubmit={handleSubmit}
+        defaultValues={editingProduct}
+      />
+
+      {/* Detail Modal */}
+      <ProductDetailModal
+        open={detailOpen}
+        toggle={toggleDetail}
+        product={selectedProduct}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onTransaction={handleTransaction}
+      />
     </div>
   );
 }

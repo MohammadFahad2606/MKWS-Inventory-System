@@ -148,6 +148,95 @@ curl -s -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID> \
 -H "Authorization: Bearer <TOKEN>"
 ```
 
+
+
+
+## 📦 Product In/Out (Stock Transaction) API
+
+Ye API **initial quantity change nahi karegi**, sirf **In aur Out transactions** record karegi. Har transaction me user date aur optional remark bhi de sakta hai.
+
+### Model Update (optional info)
+
+Server me `Product.js` me **Transaction history** future ke liye optional add kar sakte ho:
+
+```js
+// example
+transactions: [
+  {
+    type: { type: String, enum: ["in","out"], required: true },
+    quantity: { type: Number, required: true },
+    date: { type: Date, required: true },
+    remark: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  }
+]
+```
+
+---
+
+### Routes (`/api/products/transaction`)
+
+| Method | Endpoint           | Description                      |
+| ------ | ------------------ | -------------------------------- |
+| POST   | `/product/:id/in`  | ➕ Add stock (In) for product     |
+| POST   | `/product/:id/out` | ➖ Remove stock (Out) for product |
+
+> Headers me JWT token required hoga:
+> `Authorization: Bearer <TOKEN>`
+
+---
+
+### Request Body Example
+
+```json
+{
+  "quantity": 10,
+  "date": "2025-08-17",
+  "remark": "New stock received from supplier"
+}
+```
+
+---
+
+### Example API Call
+
+#### Stock In
+
+```bash
+curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/in \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <TOKEN>" \
+-d '{"quantity":50,"date":"2025-08-17","remark":"Received new stock"}'
+```
+
+#### Stock Out
+
+```bash
+curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/out \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <TOKEN>" \
+-d '{"quantity":5,"date":"2025-08-17","remark":"Sold to customer"}'
+```
+
+---
+
+### Response Example
+
+```json
+{
+  "_id": "64df123abc456def7890gh12",
+  "name": "Paracetamol 500mg",
+  "productId": "PCM-500",
+  "buyRate": 2.75,
+  "initialQuantity": 100,
+  "currentQuantity": 145,
+  "transactions": [
+    { "type": "in", "quantity": 50, "date": "2025-08-17", "remark": "Received new stock" },
+    { "type": "out", "quantity": 5, "date": "2025-08-17", "remark": "Sold to customer" }
+  ]
+}
+```
+
 ---
 
 ## ⚡ Frontend Setup
@@ -176,6 +265,3 @@ Server runs on [http://localhost:4000](http://localhost:4000)
 
 ---
 
-👉 Ab Redux Toolkit setup ready hai, next step frontend par **productSlice + integration** karna hoga.
-
-Bhai kya chahte ho main abhi tumhe **productSlice + store setup + Product page me API integration code** de du?

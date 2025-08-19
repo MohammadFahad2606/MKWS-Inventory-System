@@ -7,47 +7,48 @@ import {
   Radio,
   RadioGroup,
 } from "@material-tailwind/react";
+const Test = () => {
 
-export function Notifications() {
- // Dummy product list
-const dummyProducts = [
-  { _id: "1", name: "Paracetamol 500mg", productId: "PCM-500", buyRate: 2.75 },
-  { _id: "2", name: "Amoxicillin 250mg", productId: "AMX-250", buyRate: 5.0 },
-  { _id: "3", name: "Ibuprofen 200mg", productId: "IBU-200", buyRate: 3.25 },
-];
+      // Dummy product list
+  const dummyProducts = [
+    { _id: "1", name: "Paracetamol 500mg", productId: "PCM-500", buyRate: 2.75 },
+    { _id: "2", name: "Amoxicillin 250mg", productId: "AMX-250", buyRate: 5.0 },
+    { _id: "3", name: "Ibuprofen 200mg", productId: "IBU-200", buyRate: 3.25 },
+  ];
 
-const [selectedProduct, setSelectedProduct] = useState(null);
-const [stockType, setStockType] = useState("in"); // "in" or "out"
-const [quantity, setQuantity] = useState(0);
-const [remark, setRemark] = useState("");
-const [date, setDate] = useState(new Date().toISOString().slice(0, 16)); // YYYY-MM-DDTHH:mm
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [stockType, setStockType] = useState("in"); // "in" or "out"
+  const [quantity, setQuantity] = useState(0);
+  const [remark, setRemark] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 16)); // YYYY-MM-DDTHH:mm
 
-const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
-const handleSave = () => {
-  if (!selectedProduct || quantity <= 0) {
-    return alert("Select product & quantity");
-  }
-  alert(`
-    ✅ Transaction Saved!
-    Product: ${selectedProduct.name}
-    Type: ${stockType}
-    Quantity: ${quantity}
-    Date: ${date}
-    Remark: ${remark}
-  `);
+  const handleSave = () => {
+    if (!selectedProduct || quantity <= 0) {
+      return alert("Select product & quantity");
+    }
+    alert(`
+      ✅ Transaction Saved!
+      Product: ${selectedProduct.name}
+      Type: ${stockType}
+      Quantity: ${quantity}
+      Date: ${date}
+      Remark: ${remark}
+    `);
 
-  setQuantity(0);
-  setRemark("");
-  setSelectedProduct(null);
-};
+    setQuantity(0);
+    setRemark("");
+    setSelectedProduct(null);
+  };
 
-const filteredProducts = dummyProducts.filter((p) =>
-  p.name.toLowerCase().includes(search.toLowerCase())
-);
+  const filteredProducts = dummyProducts.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-return (
-  <div className="p-4">
+  return (
+    <>
+    <div className="p-4">
     <Typography variant="h4" className="mb-4">
       Stock In/Out
     </Typography>
@@ -63,7 +64,7 @@ return (
     </div>
 
     {/* Search */}
-    <div className="mb-4">
+     <div className="mb-4">
       <Input
         placeholder="Search Product..."
         value={search}
@@ -72,7 +73,8 @@ return (
     </div>
 
     {/* Product List */}
-    <div className="mb-4 overflow-x-auto">
+   
+     <div className="mb-4 overflow-x-auto">
       <table className="min-w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
@@ -112,16 +114,25 @@ return (
 
     {/* In/Out Toggle */}
     <div className="mb-4">
-      <Typography>Type:</Typography>
-      <RadioGroup
-        value={stockType}
-        onChange={setStockType}
-        className="flex gap-4"
-      >
-        <Radio value="in" label="Stock In" />
-        <Radio value="out" label="Stock Out" />
-      </RadioGroup>
-    </div>
+  <label className="block font-medium mb-2">Type:</label>
+  <div className="flex gap-6">
+    <Radio
+      name="stockType"
+      label="Stock In"
+      value="in"
+      checked={stockType === "in"}
+      onChange={() => setStockType("in")}
+    />
+    <Radio
+      name="stockType"
+      label="Stock Out"
+      value="out"
+      checked={stockType === "out"}
+      onChange={() => setStockType("out")}
+    />
+  </div>
+</div>
+
 
     {/* Quantity & Remark */}
     <div className="mb-4 flex gap-2">
@@ -140,9 +151,10 @@ return (
 
     <Button color="green" onClick={handleSave}>
       Save
-    </Button>
+    </Button> 
   </div>
-);
+  </>
+  )
 }
 
-export default Notifications;
+export default Test

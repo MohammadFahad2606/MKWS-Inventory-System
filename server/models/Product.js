@@ -1,5 +1,15 @@
-// server/models/Product.js
 import mongoose from "mongoose";
+
+// 👇 transaction ka schema
+const transactionSchema = new mongoose.Schema(
+  {
+    type: { type: String, enum: ["IN", "OUT"], required: true },
+    amount: { type: Number, required: true },
+    date: { type: Date, default: Date.now },
+    remark: { type: String, trim: true },
+  },
+  { timestamps: true }
+);
 
 const productSchema = new mongoose.Schema(
   {
@@ -40,9 +50,9 @@ const productSchema = new mongoose.Schema(
       maxlength: 1000,
       default: "",
     },
-    // optional future fields
-    // sellRate: Number,
-    // sku: String,
+
+    // 👇 ye naya field add karna hoga
+    transactions: [transactionSchema],
   },
   { timestamps: true }
 );

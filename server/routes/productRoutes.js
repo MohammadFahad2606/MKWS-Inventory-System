@@ -5,6 +5,8 @@ import {
   getProductById,
   updateProduct,
   deleteProduct,
+  stockIn,
+  stockOut,
 } from "../controllers/productController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -16,5 +18,9 @@ router.get("/products", protect, getProducts);           // get all products
 router.get("/product/:id", protect, getProductById);     // get single product
 router.put("/product/:id", protect, updateProduct);      // update product
 router.delete("/product/:id", protect, deleteProduct);   // delete product
+
+// stock in / out routes
+router.post("/product/:id/in", protect, stockIn);
+router.post("/product/:id/out", protect, stockOut);
 
 export default router;

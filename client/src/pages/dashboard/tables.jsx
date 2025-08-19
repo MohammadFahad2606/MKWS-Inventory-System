@@ -1,221 +1,148 @@
+import React, { useState } from "react";
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Typography,
-  Avatar,
-  Chip,
-  Tooltip,
-  Progress,
+  Input,
+  Button,
+  Textarea,
+  Radio,
+  RadioGroup,
 } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
 
 export function Tables() {
-  return (
-    <div className="mt-12 mb-8 flex flex-col gap-12">
-      <Card>
-        <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
-          <Typography variant="h6" color="white">
-            Authors Table
-          </Typography>
-        </CardHeader>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {["author", "function", "status", "employed", ""].map((el) => (
-                  <th
-                    key={el}
-                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
-                  >
-                    <Typography
-                      variant="small"
-                      className="text-[11px] font-bold uppercase text-blue-gray-400"
-                    >
-                      {el}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {authorsTableData.map(
-                ({ img, name, email, job, online, date }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === authorsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+// Dummy product list
+const dummyProducts = [
+  { _id: "1", name: "Paracetamol 500mg", productId: "PCM-500", buyRate: 2.75 },
+  { _id: "2", name: "Amoxicillin 250mg", productId: "AMX-250", buyRate: 5.0 },
+  { _id: "3", name: "Ibuprofen 200mg", productId: "IBU-200", buyRate: 3.25 },
+];
 
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" variant="rounded" />
-                          <div>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-semibold"
-                            >
-                              {name}
-                            </Typography>
-                            <Typography className="text-xs font-normal text-blue-gray-500">
-                              {email}
-                            </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {job[0]}
-                        </Typography>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {job[1]}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Chip
-                          variant="gradient"
-                          color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
-                          className="py-0.5 px-2 text-[11px] font-medium w-fit"
-                        />
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Edit
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
-          <Typography variant="h6" color="white">
-            Projects Table
-          </Typography>
-        </CardHeader>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {["companies", "members", "budget", "completion", ""].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-left"
-                    >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-bold uppercase text-blue-gray-400"
-                      >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {projectsTableData.map(
-                ({ img, name, members, budget, completion }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === projectsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
+const [selectedProduct, setSelectedProduct] = useState(null);
+const [stockType, setStockType] = useState("in"); // "in" or "out"
+const [quantity, setQuantity] = useState(0);
+const [remark, setRemark] = useState("");
+const [date, setDate] = useState(new Date().toISOString().slice(0, 16)); // YYYY-MM-DDTHH:mm
 
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold"
-                          >
-                            {name}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={className}>
-                        {members.map(({ img, name }, key) => (
-                          <Tooltip key={name} content={name}>
-                            <Avatar
-                              src={img}
-                              alt={name}
-                              size="xs"
-                              variant="circular"
-                              className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
-                              }`}
-                            />
-                          </Tooltip>
-                        ))}
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          variant="small"
-                          className="text-xs font-medium text-blue-gray-600"
-                        >
-                          {budget}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <div className="w-10/12">
-                          <Typography
-                            variant="small"
-                            className="mb-1 block text-xs font-medium text-blue-gray-600"
-                          >
-                            {completion}%
-                          </Typography>
-                          <Progress
-                            value={completion}
-                            variant="gradient"
-                            color={completion === 100 ? "green" : "gray"}
-                            className="h-1"
-                          />
-                        </div>
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          <EllipsisVerticalIcon
-                            strokeWidth={2}
-                            className="h-5 w-5 text-inherit"
-                          />
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </CardBody>
-      </Card>
+const [search, setSearch] = useState("");
+
+const handleSave = () => {
+  if (!selectedProduct || quantity <= 0) {
+    return alert("Select product & quantity");
+  }
+  alert(`
+    ✅ Transaction Saved!
+    Product: ${selectedProduct.name}
+    Type: ${stockType}
+    Quantity: ${quantity}
+    Date: ${date}
+    Remark: ${remark}
+  `);
+
+  setQuantity(0);
+  setRemark("");
+  setSelectedProduct(null);
+};
+
+const filteredProducts = dummyProducts.filter((p) =>
+  p.name.toLowerCase().includes(search.toLowerCase())
+);
+
+return (
+  <div className="p-4">
+    <Typography variant="h4" className="mb-4">
+      Stock In/Out
+    </Typography>
+
+    {/* Date & Time */}
+    <div className="mb-4">
+      <label>Date & Time:</label>
+      <Input
+        type="datetime-local"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
     </div>
-  );
+
+    {/* Search */}
+    <div className="mb-4">
+      <Input
+        placeholder="Search Product..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+    </div>
+
+    {/* Product List */}
+    <div className="mb-4 overflow-x-auto">
+      <table className="min-w-full border-collapse border border-gray-200">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Product ID</th>
+            <th className="border px-4 py-2">Buy Rate</th>
+            <th className="border px-4 py-2">Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredProducts.length === 0 ? (
+            <tr>
+              <td colSpan="4" className="text-center">
+                No products found
+              </td>
+            </tr>
+          ) : (
+            filteredProducts.map((p) => (
+              <tr key={p._id} className="text-center">
+                <td className="border px-4 py-2">{p.name}</td>
+                <td className="border px-4 py-2">{p.productId}</td>
+                <td className="border px-4 py-2">{p.buyRate}</td>
+                <td className="border px-4 py-2">
+                  <input
+                    type="radio"
+                    name="selectedProduct"
+                    checked={selectedProduct?._id === p._id}
+                    onChange={() => setSelectedProduct(p)}
+                  />
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    {/* In/Out Toggle */}
+    <div className="mb-4">
+      <Typography>Type:</Typography>
+      <RadioGroup
+        value={stockType}
+        onChange={setStockType}
+        className="flex gap-4"
+      >
+        <Radio value="in" label="Stock In" />
+        <Radio value="out" label="Stock Out" />
+      </RadioGroup>
+    </div>
+
+    {/* Quantity & Remark */}
+    <div className="mb-4 flex gap-2">
+      <Input
+        type="number"
+        label="Quantity"
+        value={quantity}
+        onChange={(e) => setQuantity(Number(e.target.value))}
+      />
+      <Textarea
+        label="Remark"
+        value={remark}
+        onChange={(e) => setRemark(e.target.value)}
+      />
+    </div>
+
+    <Button color="green" onClick={handleSave}>
+      Save
+    </Button>
+  </div>
+);
 }
 
 export default Tables;
