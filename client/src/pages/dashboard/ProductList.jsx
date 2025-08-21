@@ -1,81 +1,69 @@
 // src/pages/products/ProductList.jsx
 import React from "react";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 
 export function ProductList({ products, onShow }) {
-  if (!products.length)
+  if (!products.length) {
     return (
-      <Typography style={{ color: "var(--color-muted)" }}>
-        No products yet.
-      </Typography>
+      <p style={{ color: "var(--color-muted)" }}>No products yet.</p>
     );
+  }
 
   return (
-    <div className="overflow-x-auto">
-      <table
-        className="min-w-full border-collapse"
-        style={{
-          border: "1px solid var(--color-border)",
-          background: "var(--color-surface)",
-          color: "var(--color-text)",
-        }}
-      >
-        <thead>
-          <tr style={{ background: "var(--color-surface-variant)" }}>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Name
-            </th>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Product ID
-            </th>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Buy Rate
-            </th>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Quantity
-            </th>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Description
-            </th>
-            <th className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((p) => (
-            <tr key={p._id} className="text-center hover:bg-[var(--color-hover)]">
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                {p.name}
-              </td>
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                {p.productId}
-              </td>
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                {p.buyRate}
-              </td>
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                {p.initialQuantity}
-              </td>
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                {p.description}
-              </td>
-              <td className="px-4 py-2 border" style={{ borderColor: "var(--color-border)" }}>
-                <Button
-                  size="sm"
-                  onClick={() => onShow(p)}
-                  style={{
-                    background: "var(--color-primary)",
-                    color: "var(--color-text-on-primary)",
-                  }}
-                >
-                  Show
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="space-y-3">
+      {products.map((p) => (
+        <div
+          key={p._id}
+          className="flex items-center justify-between border p-3 rounded-lg shadow-sm hover:shadow-md transition"
+          style={{
+            borderColor: "var(--color-border)",
+            background: "var(--color-surface)",
+            color: "var(--color-text)",
+          }}
+        >
+          {/* Avatar + Info */}
+          <div className="flex items-center gap-4">
+            {/* Avatar Circle */}
+            <div
+              className="font-bold text-xl w-12 h-12 flex items-center justify-center rounded"
+              style={{
+                background: "var(--color-primary)",
+                color: "var(--color-text-on-primary)",
+              }}
+            >
+              {p.name?.charAt(0) || "?"}
+            </div>
+
+            {/* Product Details */}
+            <div>
+              <h2 className="font-semibold">
+                {p.name} - {p.productId}
+              </h2>
+              <p className="text-sm" style={{ color: "var(--color-muted)" }}>
+                {p.currentQuantity ?? p.initialQuantity} @ {p.buyRate} ={" "}
+                {p.currentQuantity ?? p.initialQuantity}
+              </p>
+              <p className="text-sm" style={{ color: "var(--color-muted)" }}>
+                {(p.currentQuantity ?? p.initialQuantity) *
+                  (p.buyRate || 0)}
+              </p>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <Button
+            size="sm"
+            onClick={() => onShow(p)}
+            className="px-4 py-1 rounded"
+            style={{
+              background: "var(--color-accent)",
+              color: "var(--color-text-on-primary)",
+            }}
+          >
+            Option
+          </Button>
+        </div>
+      ))}
     </div>
   );
 }

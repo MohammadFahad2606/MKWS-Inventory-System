@@ -19,12 +19,29 @@ export default function StockPage() {
   const [stockType, setStockType] = useState("in");
   const [quantity, setQuantity] = useState(0);
   const [remark, setRemark] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
+const [date, setDate] = useState("");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Har 1 second me current local datetime set karo
+    const updateDate = () => {
+      const now = new Date();
+      const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+      setDate(local);
+    };
+
+    updateDate(); // initial load
+    const interval = setInterval(updateDate, 1000); // har second update
+
+    return () => clearInterval(interval); // cleanup
+  }, []);
+
 
   const handleSave = () => {
     if (!selectedProduct || quantity <= 0) {
