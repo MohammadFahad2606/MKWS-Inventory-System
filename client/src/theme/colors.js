@@ -62,8 +62,30 @@ export const PALETTES = {
       muted: "#64748b",
       shadowColor: "rgba(236,72,153,0.35)",
     },
+    gray: {   // ✅ Added Gray theme
+      name: "Gray",
+      primary: "#111827",        // gray-900
+      primaryHover: "#1f2937",   // gray-800
+      accent: "#6b7280",         // gray-500
+      text: "#111827",            // gray-900
+      textOnPrimary: "#ffffff",
+      surface: "#f9fafb",        // gray-50
+      background: "#f3f4f6",     // gray-100
+      muted: "#6b7280",           // gray-500
+      shadowColor: "rgba(17,24,39,0.35)", // gray-900 semi-transparent
+    },
   };
   
+
+  // ---- Status Colors (for alerts, buttons, messages) ----
+export const STATUS_COLORS = {
+  error: "#ef4444",   // red-500
+  success: "#22c55e", // green-500
+  warning: "#f59e0b", // amber-500
+  info: "#3b82f6",    // blue-500
+};
+
+
   export const DARK_TOKENS = {
     text: "#e2e8f0",
     surface: "#0b1220",
@@ -72,7 +94,7 @@ export const PALETTES = {
     textOnPrimary: "#ffffff",
   };
   
-  export const DEFAULT_PALETTE_KEY = "blue";
+  export const DEFAULT_PALETTE_KEY = "gray";
   
   // ---- Helper: apply CSS variables to <html> (documentElement) ----
   export function applyTheme({ paletteKey = DEFAULT_PALETTE_KEY, mode = "light", custom = {} }) {
@@ -85,7 +107,7 @@ export const PALETTES = {
     };
   
     const root = document.documentElement;
-  
+  // Palette-based tokens
     root.style.setProperty("--color-primary", tokens.primary);
     root.style.setProperty("--color-primary-hover", tokens.primaryHover);
     root.style.setProperty("--color-accent", tokens.accent);
@@ -100,6 +122,12 @@ export const PALETTES = {
     root.style.setProperty("--color-icon", tokens.iconColor || tokens.text);
     root.style.setProperty("--shadow-color", tokens.shadowColor);
   
+// Status tokens
+root.style.setProperty("--color-error", STATUS_COLORS.error);
+root.style.setProperty("--color-success", STATUS_COLORS.success);
+root.style.setProperty("--color-warning", STATUS_COLORS.warning);
+root.style.setProperty("--color-info", STATUS_COLORS.info);
+
     // common shadow values (you can tweak via custom.shadowX if needed)
     root.style.setProperty("--shadow-elev-1", `0 8px 20px var(--shadow-color)`);
     root.style.setProperty("--shadow-elev-2", `0 14px 32px var(--shadow-color)`);

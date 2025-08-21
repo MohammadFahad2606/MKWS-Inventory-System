@@ -1,7 +1,14 @@
+// src/pages/products/Product.jsx
+
 import React, { useState, useEffect } from "react";
-import { Typography, Button } from "@material-tailwind/react";
+import { Typography, Button, Card } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, createProduct, updateProduct, deleteProduct } from "../../redux/productSlice";
+import {
+  fetchProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "../../redux/productSlice";
 import ProductModal from "./ProductModal";
 import ProductList from "./ProductList";
 import ProductDetailModal from "./ProductDetailModal";
@@ -52,23 +59,50 @@ export function Product() {
 
   const handleTransaction = (product) => {
     console.log("Transaction logic for:", product);
-    // yahan aap In/Out modal bana ke use karenge
+    // Yahan In/Out modal banega
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-6">
-        <Typography variant="h4" className="font-bold">Products</Typography>
-        <Button color="blue" onClick={toggleModal}>+ Add New</Button>
-      </div>
+    <div className="p-6 bg-[var(--color-bg)] min-h-screen">
+      <Card
+        className="p-6 rounded-2xl shadow-lg"
+        style={{
+          background: "var(--color-surface)",
+          color: "var(--color-text)",
+          boxShadow: "var(--shadow-elev-1)",
+        }}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <Typography
+            variant="h4"
+            className="font-bold"
+            style={{ color: "var(--color-text)" }}
+          >
+            Products
+          </Typography>
+          <Button
+            className="rounded-xl shadow-md"
+            style={{
+              background: "var(--color-primary)",
+              color: "var(--color-text-on-primary)",
+              boxShadow: "var(--shadow-elev-2)",
+            }}
+            onClick={toggleModal}
+          >
+            + Add New
+          </Button>
+        </div>
 
-      {loading ? (
-        <Typography>Loading...</Typography>
-      ) : error ? (
-        <Typography color="red">{error}</Typography>
-      ) : (
-        <ProductList products={items} onShow={handleShow} />
-      )}
+        {loading ? (
+          <Typography style={{ color: "var(--color-muted)" }}>
+            Loading...
+          </Typography>
+        ) : error ? (
+          <Typography style={{ color: "red" }}>{error}</Typography>
+        ) : (
+          <ProductList products={items} onShow={handleShow} />
+        )}
+      </Card>
 
       {/* Add / Edit Modal */}
       <ProductModal

@@ -1,46 +1,4 @@
-
-// import React, { useState } from "react";
-// import { Dialog, DialogHeader, DialogBody, DialogFooter, Button, Input, Textarea, Typography } from "@material-tailwind/react";
-// import { useDispatch } from "react-redux";
-// import {  updateProduct, deleteProduct } from "../../redux/productSlice";
-
-// export default function ProductDetailModal({ open, toggle, product }) {
-//   const dispatch = useDispatch();
-
-//   if (!product) return null;
-
-
-
-//   const handleDelete = () => {
-//     if (window.confirm("Are you sure to delete this product?")) {
-//       dispatch(deleteProduct(product._id));
-//       toggle();
-//     }
-//   };
-
-//   return (
-//     <Dialog open={open} size="lg" handler={toggle}>
-//       <DialogHeader>{product.name} - Details</DialogHeader>
-//       <DialogBody divider>
-//         <Typography><b>Product ID:</b> {product.productId}</Typography>
-//         <Typography><b>Description:</b> {product.description}</Typography>
-//         <Typography><b>Buy Rate:</b> {product.buyRate}</Typography>
-//         <Typography><b>Initial Quantity:</b> {product.initialQuantity}</Typography>
-//         <Typography><b>Current Quantity:</b> {product.currentQuantity ?? product.initialQuantity}</Typography>
-//         <Typography><b>Stock Price:</b> {product.buyRate * (product.currentQuantity ?? product.initialQuantity)}</Typography>
-
-        
-//       </DialogBody>
-//       <DialogFooter className="flex justify-between">
-//         <div className="space-x-2">
-//           <Button color="blue" onClick={() => {/* Edit logic here */}}>Edit</Button>
-//           <Button color="red" onClick={handleDelete}>Delete</Button>
-//           <Button variant="text" color="gray" onClick={toggle}>Close</Button>
-//         </div>
-//       </DialogFooter>
-//     </Dialog>
-//   );
-// }
+// src/pages/products/ProductDetailModal.jsx
 import React from "react";
 import {
   Dialog,
@@ -59,17 +17,28 @@ export default function ProductDetailModal({
   onEdit,
   onDelete,
 }) {
-
-  const navigate = useNavigate(); // ✅ Hook top-level pe call
+  const navigate = useNavigate();
 
   if (!product) return null;
-const handleTransaction = () => {
-    toggle(); // modal close
-    navigate(`/dashboard/transactions/${product._id}`); // ✅ navigate route
+
+  const handleTransaction = () => {
+    toggle();
+    navigate(`/dashboard/transactions/${product._id}`);
   };
+
   return (
-    <Dialog open={open} size="lg" handler={toggle}>
-      <DialogHeader>{product.name} - Details</DialogHeader>
+    <Dialog
+      open={open}
+      size="lg"
+      handler={toggle}
+      style={{
+        background: "var(--color-surface)",
+        color: "var(--color-text)",
+      }}
+    >
+      <DialogHeader style={{ color: "var(--color-primary)" }}>
+        {product.name} - Details
+      </DialogHeader>
       <DialogBody divider>
         <Typography>
           <b>Product ID:</b> {product.productId}
@@ -96,14 +65,41 @@ const handleTransaction = () => {
 
       <DialogFooter className="flex justify-between">
         <div className="space-x-2">
-          <Button color="blue" onClick={() => onEdit(product)}>
+          <Button
+            onClick={() => onEdit(product)}
+            style={{
+              background: "var(--color-primary)",
+              color: "var(--color-text-on-primary)",
+            }}
+          >
             Edit
           </Button>
-          <Button color="green" onClick={handleTransaction}>Transaction</Button>
-          <Button color="red" onClick={() => onDelete(product._id)}>
+          <Button
+            onClick={handleTransaction}
+            style={{
+              background: "var(--color-success)",
+              color: "var(--color-text-on-primary)",
+            }}
+          >
+            Transaction
+          </Button>
+          <Button
+            onClick={() => onDelete(product._id)}
+            style={{
+              background:   "var(--color-error)",
+               color: "var(--color-text-on-primary)",
+            }}
+          >
             Delete
           </Button>
-          <Button variant="text" color="gray" onClick={toggle}>
+          <Button
+            variant="text"
+            onClick={toggle}
+            style={{ 
+              background: "var(--color-muted)",
+              color: "var(--color-text-on-primary)"
+             }}
+          >
             Close
           </Button>
         </div>

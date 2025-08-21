@@ -49,20 +49,26 @@ export default function StockPage() {
   );
 
   return (
-    <div className="p-4">
-      <Typography variant="h4" className="mb-4">
+    <div className="p-4" style={{ background: "var(--color-bg)", color: "var(--color-text)" }}>
+      <Typography variant="h4" className="mb-4" style={{ color: "var(--color-primary)" }}>
         Stock In/Out
       </Typography>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p style={{ color: "var(--color-error, red)" }}>{error}</p>}
 
       {/* Date */}
       <div className="mb-4">
-        <label>Date & Time:</label>
+        <label style={{ color: "var(--color-muted)" }}>Date & Time:</label>
         <Input
           type="datetime-local"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          className="!border !rounded-md"
+          style={{
+            background: "var(--color-surface)",
+            borderColor: "var(--color-muted)",
+            color: "var(--color-text)",
+          }}
         />
       </div>
 
@@ -72,42 +78,51 @@ export default function StockPage() {
           placeholder="Search Product..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="!border !rounded-md"
+          style={{
+            background: "var(--color-surface)",
+            borderColor: "var(--color-muted)",
+            color: "var(--color-text)",
+          }}
         />
       </div>
 
       {/* Product List */}
       <div className="mb-4 overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-200">
+        <table
+          className="min-w-full border-collapse"
+          style={{ borderColor: "var(--color-muted)" }}
+        >
           <thead>
-            <tr className="bg-gray-100">
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Product ID</th>
-              <th className="border px-4 py-2">Buy Rate</th>
-              <th className="border px-4 py-2">Quantity</th>
-              <th className="border px-4 py-2">Select</th>
+            <tr style={{ background: "var(--color-surface)" }}>
+              <th className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>Name</th>
+              <th className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>Product ID</th>
+              <th className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>Buy Rate</th>
+              <th className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>Quantity</th>
+              <th className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>Select</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan="5" className="text-center">
                   Loading...
                 </td>
               </tr>
             ) : filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan="5" className="text-center">
                   No products found
                 </td>
               </tr>
             ) : (
               filteredProducts.map((p) => (
-                <tr key={p._id} className="text-center">
-                  <td className="border px-4 py-2">{p.name}</td>
-                  <td className="border px-4 py-2">{p.productId}</td>
-                  <td className="border px-4 py-2">{p.buyRate}</td>
-                  <td className="border px-4 py-2">{p.initialQuantity}</td>
-                  <td className="border px-4 py-2">
+                <tr key={p._id} className="text-center" style={{ background: "var(--color-surface)" }}>
+                  <td className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>{p.name}</td>
+                  <td className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>{p.productId}</td>
+                  <td className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>{p.buyRate}</td>
+                  <td className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>{p.initialQuantity}</td>
+                  <td className="border px-4 py-2" style={{ borderColor: "var(--color-muted)" }}>
                     <input
                       type="radio"
                       name="selectedProduct"
@@ -124,7 +139,7 @@ export default function StockPage() {
 
       {/* In/Out */}
       <div className="mb-4">
-        <Typography>Type:</Typography>
+        <Typography style={{ color: "var(--color-text)" }}>Type:</Typography>
         <div className="flex gap-4">
           <label className="flex items-center gap-2">
             <Radio
@@ -133,6 +148,7 @@ export default function StockPage() {
               checked={stockType === "in"}
               onChange={() => setStockType("in")}
               label="Stock In"
+              className="text-[var(--color-primary)]"
             />
           </label>
           <label className="flex items-center gap-2">
@@ -142,6 +158,7 @@ export default function StockPage() {
               checked={stockType === "out"}
               onChange={() => setStockType("out")}
               label="Stock Out"
+              className="text-[var(--color-primary)]"
             />
           </label>
         </div>
@@ -154,15 +171,33 @@ export default function StockPage() {
           label="Quantity"
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
+          className="!border !rounded-md"
+          style={{
+            background: "var(--color-surface)",
+            borderColor: "var(--color-muted)",
+            color: "var(--color-text)",
+          }}
         />
         <Textarea
           label="Remark"
           value={remark}
           onChange={(e) => setRemark(e.target.value)}
+          className="!border !rounded-md"
+          style={{
+            background: "var(--color-surface)",
+            borderColor: "var(--color-muted)",
+            color: "var(--color-text)",
+          }}
         />
       </div>
 
-      <Button color="green" onClick={handleSave}>
+      <Button
+        onClick={handleSave}
+        style={{
+          background: "var(--color-primary)",
+          color: "var(--color-text-on-primary)",
+        }}
+      >
         Save
       </Button>
     </div>

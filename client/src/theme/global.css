@@ -1,0 +1,36 @@
+@import "./colors.css";
+
+/* Backgrounds */
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-bgPrimary { background-color: var(--color-bg-primary); }
+.bg-bgSecondary { background-color: var(--color-bg-secondary); }
+
+/* Text */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-error { color: var(--color-error); }
+.text-text { color: var(--color-text); }
+
+/* Icons */
+.icon-color { color: var(--color-icon); }
+
+/* Shadows */
+.shadow-custom { box-shadow: 0 4px 6px var(--color-shadow); }
+
+/* Inputs & Buttons */
+input, textarea, select {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-primary);
+}
+
+button {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  border-radius: 0.5rem;
+}
+button:hover {
+  background-color: var(--color-secondary);
+}
