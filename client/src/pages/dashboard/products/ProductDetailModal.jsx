@@ -11,8 +11,21 @@ export default function ProductDetailModal({
   onDelete,
 }) {
   const navigate = useNavigate();
+  // console.log(product)
 
   if (!product) return null;
+
+
+  // ✅ Transactions se totals calculate karo
+  const totalIn = product.transactions
+    ?.filter((t) => t.type === "IN")
+    .reduce((sum, t) => sum + t.amount, 0) || 0;
+
+  const totalOut = product.transactions
+    ?.filter((t) => t.type === "OUT")
+    .reduce((sum, t) => sum + t.amount, 0) || 0;
+
+  const inHand = totalIn - totalOut;
 
   const handleTransaction = () => {
     toggle();
@@ -85,7 +98,7 @@ export default function ProductDetailModal({
       </div>
 
       {/* Stock Table */}
-      <div className="overflow-x-auto">
+      {/* <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <tbody>
             <tr
@@ -108,7 +121,7 @@ export default function ProductDetailModal({
             </tr>
             <tr
               style={{
-                background: "var(--color-accent)",
+                background: "var(--color-highlight)",
                 color: "var(--color-text-on-accent)",
               }}
             >
@@ -126,8 +139,40 @@ export default function ProductDetailModal({
             </tr>
           </tbody>
         </table>
-      </div>
-
+      </div> */}
+<div className="overflow-x-auto">
+      <table className="w-full border-collapse text-sm">
+        <tbody>
+          <tr
+            className="font-semibold"
+            style={{
+              background: "var(--color-primary)",
+              color: "var(--color-text-on-primary)", // ✅ white text on primary
+            }}
+          >
+            <td className="p-2">Total In</td>
+            <td className="p-2 text-right">{totalIn} pcs</td>
+          </tr>
+          <tr>
+            <td className="p-2">Total Out</td>
+            <td className="p-2 text-right">{totalOut} pcs</td>
+          </tr>
+          <tr
+            style={{
+              background: "var(--color-highlight)",
+              color: "var(--color-text)", // ya custom on-highlight color
+            }}
+          >
+            <td className="p-2">In Hand</td>
+            <td className="p-2 text-right">{inHand} pcs</td>
+          </tr>
+          <tr>
+            <td className="p-2">Stock Price</td>
+            <td className="p-2 text-right">{inHand * product.buyRate}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
       {/* Buttons */}
       <div className="flex justify-between mt-6">
         <button

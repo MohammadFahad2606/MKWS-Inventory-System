@@ -1,6 +1,8 @@
 // src/pages/products/Product.jsx
 
-import React, { useState, useEffect } from "react";
+import React, {
+  useState, useEffect, useMemo
+} from "react";
 import { Typography, Button, Card } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,7 +10,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-} from "../../redux/productSlice";
+} from "../../../redux/productSlice";
 import ProductModal from "./ProductModal";
 import ProductList from "./ProductList";
 import ProductDetailModal from "./ProductDetailModal";
@@ -18,13 +20,14 @@ export function Product() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
-
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
 
   const toggleModal = () => setModalOpen(!modalOpen);
   const toggleDetail = () => setDetailOpen(!detailOpen);
@@ -38,7 +41,7 @@ export function Product() {
     setEditingProduct(null);
     toggleModal();
   };
-
+  // console.log(items)
   const handleShow = (product) => {
     setSelectedProduct(product);
     toggleDetail();
@@ -78,20 +81,24 @@ export function Product() {
             className="font-bold"
             style={{ color: "var(--color-text)" }}
           >
-            Products
+            All Products
           </Typography>
           <Button
-            className="rounded-xl shadow-md"
+            className="rounded-l shadow-sm"
             style={{
-              background: "var(--color-primary)",
+              background: "var(--color-success)",
               color: "var(--color-text-on-primary)",
-              boxShadow: "var(--shadow-elev-2)",
+
             }}
             onClick={toggleModal}
           >
             + Add New
           </Button>
         </div>
+
+
+
+
 
         {loading ? (
           <Typography style={{ color: "var(--color-muted)" }}>

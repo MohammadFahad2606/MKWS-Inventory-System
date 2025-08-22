@@ -24,7 +24,6 @@ function ThemeInitializer({ children }) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <ThemeProvider>
@@ -36,5 +35,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ThemeProvider>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>
 );
