@@ -43,7 +43,7 @@ export default function TransactionList({ transactions }) {
             </div>
 
             {/* Arrow */}
-            <span className="text-gray-400">➡</span>
+            <span className="text-white bg-gray-900 rounded-md p-2 cursor-pointer">➡</span>
           </div>
         );
       })}

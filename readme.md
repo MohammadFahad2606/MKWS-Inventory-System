@@ -1,7 +1,7 @@
-Perfect bhai 👍 samajh gaya. Tum chahte ho ke main **README file update kar dun**, jisme:
+
 # 🗃 MKWS Inventory System
 
-Inventory Management System for **Muslim Khatri Medical & Diagnostic Center**  
+Inventory Management System for **Muslim Khatri Medical & Diagnostic Center**
 Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoDB (backend)**.
 
 ---
@@ -9,7 +9,6 @@ Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoD
 ## 📂 Project Structure
 
 ```
-
 ├── client
 │   ├── .env
 │   ├── package.json
@@ -32,26 +31,24 @@ Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoD
 │   │   ├── main.jsx
 │   │   └── App.jsx
 │   └── vite.config.js
-│
 └── server
-├── .env
-├── server.js
-├── config/db.js
-├── models
-│   ├── User.js
-│   └── Product.js
-├── controllers
-│   ├── userController.js
-│   └── productController.js
-├── routes
-│   ├── userRoutes.js
-│   └── productRoutes.js
-├── middleware
-│   ├── authMiddleware.js
-│   └── errorMiddleware.js
-└── utils/generateToken.js
-
-````
+    ├── .env
+    ├── server.js
+    ├── config/db.js
+    ├── models
+    │   ├── User.js
+    │   └── Product.js
+    ├── controllers
+    │   ├── userController.js
+    │   └── productController.js
+    ├── routes
+    │   ├── userRoutes.js
+    │   └── productRoutes.js
+    ├── middleware
+    │   ├── authMiddleware.js
+    │   └── errorMiddleware.js
+    └── utils/generateToken.js
+```
 
 ---
 
@@ -63,7 +60,7 @@ Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoD
 PORT=4000
 MONGO_URI=mongodb://localhost:27017/mkws_inventory
 JWT_SECRET=replace_with_strong_secret
-````
+```
 
 ### Frontend (`client/.env`)
 
@@ -148,8 +145,7 @@ curl -s -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID> \
 -H "Authorization: Bearer <TOKEN>"
 ```
 
-
-
+---
 
 ## 📦 Product In/Out (Stock Transaction) API
 
@@ -160,11 +156,10 @@ Ye API **initial quantity change nahi karegi**, sirf **In aur Out transactions**
 Server me `Product.js` me **Transaction history** future ke liye optional add kar sakte ho:
 
 ```js
-// example
 transactions: [
   {
-    type: { type: String, enum: ["in","out"], required: true },
-    quantity: { type: Number, required: true },
+    type: { type: String, enum: ["IN","OUT"], required: true },
+    amount: { type: Number, required: true },
     date: { type: Date, required: true },
     remark: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -176,20 +171,23 @@ transactions: [
 
 ### Routes (`/api/products/transaction`)
 
-| Method | Endpoint           | Description                      |
-| ------ | ------------------ | -------------------------------- |
-| POST   | `/product/:id/in`  | ➕ Add stock (In) for product     |
-| POST   | `/product/:id/out` | ➖ Remove stock (Out) for product |
+| Method | Endpoint                                         | Description                      |
+| ------ | ------------------------------------------------ | -------------------------------- |
+| POST   | `/product/:id/in`                                | ➕ Add stock (In) for product     |
+| POST   | `/product/:id/out`                               | ➖ Remove stock (Out) for product |
+| PUT    | `/product/:productId/transaction/:transactionId` | ✏️ Update existing transaction   |
+| DELETE | `/product/:productId/transaction/:transactionId` | 🗑 Delete a transaction          |
 
 > Headers me JWT token required hoga:
 > `Authorization: Bearer <TOKEN>`
 
 ---
 
-### Request Body Example
+### Request Body Example (In / Out / Update)
 
 ```json
 {
+  "type": "IN",          // Only for update
   "quantity": 10,
   "date": "2025-08-17",
   "remark": "New stock received from supplier"
@@ -198,7 +196,7 @@ transactions: [
 
 ---
 
-### Example API Call
+### Example API Calls
 
 #### Stock In
 
@@ -218,6 +216,22 @@ curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/out \
 -d '{"quantity":5,"date":"2025-08-17","remark":"Sold to customer"}'
 ```
 
+#### Update Transaction
+
+```bash
+curl -X PUT http://localhost:4000/api/products/product/<PRODUCT_ID>/transaction/<TRANSACTION_ID> \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <TOKEN>" \
+-d '{"type":"OUT","quantity":3,"remark":"Correction"}'
+```
+
+#### Delete Transaction
+
+```bash
+curl -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID>/transaction/<TRANSACTION_ID> \
+-H "Authorization: Bearer <TOKEN>"
+```
+
 ---
 
 ### Response Example
@@ -228,11 +242,10 @@ curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/out \
   "name": "Paracetamol 500mg",
   "productId": "PCM-500",
   "buyRate": 2.75,
-  "initialQuantity": 100,
-  "currentQuantity": 145,
+  "initialQuantity": 145,
   "transactions": [
-    { "type": "in", "quantity": 50, "date": "2025-08-17", "remark": "Received new stock" },
-    { "type": "out", "quantity": 5, "date": "2025-08-17", "remark": "Sold to customer" }
+    { "_id": "64df125abc456def7890gh13", "type": "IN", "amount": 50, "date": "2025-08-17", "remark": "Received new stock" },
+    { "_id": "64df126abc456def7890gh14", "type": "OUT", "amount": 5, "date": "2025-08-17", "remark": "Sold to customer" }
   ]
 }
 ```
@@ -264,4 +277,3 @@ npm run dev
 Server runs on [http://localhost:4000](http://localhost:4000)
 
 ---
-

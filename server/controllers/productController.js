@@ -164,3 +164,66 @@ export const stockOut = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// @desc    updateTransaction
+// @route   PUT /api/product/:productId/transaction/:transactionId
+// @access  Private
+export const updateTransaction = async (req, res) => {
+  try {
+    const { productId, transactionId } = req.params;
+    const { type, amount, date, remark } = req.body;
+
+    const product = await Product.findOne({ _id: productId, user: req.userId });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const transaction = product.transactions.id(transactionId);
+    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+
+    // Adjust initialQuantity before updating
+    if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
+    else product.initialQuantity += transaction.amount;
+
+    // Update transaction
+    transaction.type = type || transaction.type;
+    transaction.amount = amount ?? transaction.amount;
+    transaction.date = date || transaction.date;
+    transaction.remark = remark || transaction.remark;
+
+    // Re-adjust initialQuantity
+    if (transaction.type === "IN") product.initialQuantity += transaction.amount;
+    else product.initialQuantity -= transaction.amount;
+
+    await product.save();
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    deleteTransaction
+// @route   DELETE /api/product/:productId/transaction/:transactionId
+// @access  Private
+
+export const deleteTransaction = async (req, res) => {
+  try {
+    const { productId, transactionId } = req.params;
+
+    const product = await Product.findOne({ _id: productId, user: req.userId });
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const transaction = product.transactions.id(transactionId);
+    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+
+    // Adjust initialQuantity before deleting
+    if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
+    else product.initialQuantity += transaction.amount;
+
+    // Remove transaction
+    transaction.remove();
+    await product.save();
+
+    res.json({ message: "Transaction deleted", product });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

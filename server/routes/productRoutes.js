@@ -7,6 +7,8 @@ import {
   deleteProduct,
   stockIn,
   stockOut,
+  updateTransaction,
+  deleteTransaction,
 } from "../controllers/productController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -22,5 +24,10 @@ router.delete("/product/:id", protect, deleteProduct);   // delete product
 // stock in / out routes
 router.post("/product/:id/in", protect, stockIn);
 router.post("/product/:id/out", protect, stockOut);
+
+// updateTransaction  /  deleteTransaction routes
+router.put("/product/:productId/transaction/:transactionId", protect, updateTransaction);
+router.delete("/product/:productId/transaction/:transactionId", protect, deleteTransaction);
+
 
 export default router;
