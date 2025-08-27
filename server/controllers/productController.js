@@ -18,6 +18,14 @@ export const createProduct = async (req, res) => {
       initialQuantity: initialQuantity,
       description,
       user: req.userId, // 👈 from middleware
+      transactions: [
+        {
+          type: "IN",
+          amount: initialQuantity,
+          remark: "Initial stock",
+          date: new Date(),
+        },
+      ],
     });
 
     const createdProduct = await product.save();

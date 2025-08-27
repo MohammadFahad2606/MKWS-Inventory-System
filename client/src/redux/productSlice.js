@@ -67,6 +67,38 @@ export const addStock = createAsyncThunk(
   }
 );
 
+
+// ✅ Update Transaction
+export const updateTransaction = createAsyncThunk(
+  "products/updateTransaction",
+  async ({ productId, transactionId, type, amount, date, remark }, { rejectWithValue }) => {
+    try {
+      const res = await API.put(`/products/product/${productId}/transaction/${transactionId}`, {
+        type,
+        quantity: amount,
+        date,
+        remark,
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+// ✅ Delete Transaction
+export const deleteTransaction = createAsyncThunk(
+  "products/deleteTransaction",
+  async ({ productId, transactionId }, { rejectWithValue }) => {
+    try {
+      await API.delete(`/products/product/${productId}/transaction/${transactionId}`);
+      return { productId, transactionId };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: {
@@ -137,7 +169,19 @@ const productSlice = createSlice({
         // update product in items array
         const index = state.items.findIndex(p => p._id === action.payload._id);
         if (index !== -1) state.items[index] = action.payload;
-      });
+      })
+      .addCase(updateTransaction.fulfilled, (state, action) => {
+        const index = state.items.findIndex((p) => p._id === action.payload._id);
+        if (index !== -1) state.items[index] = action.payload;
+      })
+      .addCase(deleteTransaction.fulfilled, (state, action) => {
+        const product = state.items.find((p) => p._id === action.payload.productId);
+        if (product) {
+          product.transactions = product.transactions.filter(
+            (t) => t._id !== action.payload.transactionId
+          )
+        }
+      })
   },
 });
 

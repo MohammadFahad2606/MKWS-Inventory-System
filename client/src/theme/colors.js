@@ -100,7 +100,7 @@ export const PALETTES = {
     shadowColor: "rgba(44,62,81,0.25)", // shadow with charcoal tint
 
     // Extras
-    : "#54BA88",         // optional accent (mint)
+    accent : "#54BA88",         // optional accent (mint)
   }
 
 };
