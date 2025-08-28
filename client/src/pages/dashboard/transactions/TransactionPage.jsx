@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +23,7 @@ export default function TransactionPage() {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-// console.log(filteredTransactions)
+// console.log(items)
   useEffect(() => {
     if (!items.length) dispatch(fetchProducts());
   }, [dispatch, items.length]);
@@ -34,11 +36,12 @@ export default function TransactionPage() {
         transactions = product.transactions.map((t) => ({
           ...t,
           productName: product.name,
+          productId: p._id
         }));
       }
     } else {
       transactions = items.flatMap((p) =>
-        p.transactions.map((t) => ({ ...t, productName: p.name }))
+        p.transactions.map((t) => ({ ...t, productName: p.name ,productId: p._id }))
       );
     }
     if (!productId && selectedProduct) {
@@ -66,6 +69,8 @@ export default function TransactionPage() {
     setCurrentPage(1);
   }, [items, productId, selectedProduct, fromDate, toDate]);
 
+
+  // console.log(filteredTransactions)
   const handleGet = () => setSelectedProduct(selectedProduct);
   const handleClear = () => {
     setSelectedProduct(productId || "");

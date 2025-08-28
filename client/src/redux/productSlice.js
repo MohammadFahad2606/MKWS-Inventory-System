@@ -75,7 +75,8 @@ export const updateTransaction = createAsyncThunk(
     try {
       const res = await API.put(`/products/product/${productId}/transaction/${transactionId}`, {
         type,
-        quantity: amount,
+        amount,
+        // quantity: amount,
         date,
         remark,
       });
@@ -98,6 +99,33 @@ export const deleteTransaction = createAsyncThunk(
     }
   }
 );
+
+// ✅ Delete Transaction By ID (sirf transactionId se)
+export const deleteTransactionById = createAsyncThunk(
+  "products/deleteTransactionById",
+  async (transactionId, { rejectWithValue }) => {
+    try {
+      await API.delete(`/products/${transactionId}`);
+      return { transactionId };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const updateTransactionById = createAsyncThunk(
+  "products/updateTransactionById",
+  async ({ transactionId, data }, { rejectWithValue }) => {
+    try {
+      const res = await API.put(`/products/transaction/${transactionId}`, data);
+      return res.data; // updated product
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+
 
 const productSlice = createSlice({
   name: "products",
@@ -174,14 +202,38 @@ const productSlice = createSlice({
         const index = state.items.findIndex((p) => p._id === action.payload._id);
         if (index !== -1) state.items[index] = action.payload;
       })
+      .addCase(updateTransaction.rejected, (state, action) => {
+        state.error = action.payload || "Failed to update transaction";
+      })      
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         const product = state.items.find((p) => p._id === action.payload.productId);
         if (product) {
           product.transactions = product.transactions.filter(
-            (t) => t._id !== action.payload.transactionId
+            (t) => t._id.toString() !== action.payload.transactionId
           )
         }
       })
+      .addCase(deleteTransactionById.fulfilled, (state, action) => {
+        state.items.forEach((product) => {
+          product.transactions = product.transactions.filter(
+            (t) => t._id.toString() !== action.payload.transactionId
+          );
+        })
+      })
+      .addCase(deleteTransactionById.rejected, (state, action) => {
+        state.error = action.payload || "Failed to delete transaction by ID";
+      })
+      .addCase(updateTransactionById.fulfilled, (state, action) => {
+        const index = state.items.findIndex((p) => p._id === action.payload._id);
+        if (index !== -1) {
+          state.items[index] = action.payload; // pura product replace kar do
+        }
+      })
+      .addCase(updateTransactionById.rejected, (state, action) => {
+        state.error = action.payload || "Failed to update transaction by ID";
+      })
+      
+      
   },
 });
 

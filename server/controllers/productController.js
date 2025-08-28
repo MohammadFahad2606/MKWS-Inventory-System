@@ -211,7 +211,6 @@ export const updateTransaction = async (req, res) => {
 // @desc    deleteTransaction
 // @route   DELETE /api/product/:productId/transaction/:transactionId
 // @access  Private
-
 export const deleteTransaction = async (req, res) => {
   try {
     const { productId, transactionId } = req.params;
@@ -219,19 +218,172 @@ export const deleteTransaction = async (req, res) => {
     const product = await Product.findOne({ _id: productId, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    const transaction = product.transactions.id(transactionId);
-    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+    const txIndex = product.transactions.findIndex(
+      (t) => t._id.toString() === transactionId
+    );
+    if (txIndex === -1) return res.status(404).json({ message: "Transaction not found" });
 
-    // Adjust initialQuantity before deleting
+    const transaction = product.transactions[txIndex];
+
+    // Prevent negative stock
+    if (transaction.type === "IN" && product.initialQuantity - transaction.amount < 0) {
+      return res.status(400).json({ message: "Cannot delete, would result in negative stock" });
+    }
+
+    // Adjust initialQuantity
     if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
     else product.initialQuantity += transaction.amount;
 
     // Remove transaction
-    transaction.remove();
+    product.transactions.splice(txIndex, 1);
+
+    await product.save();
+    res.json({ message: "Transaction deleted", product });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const deleteTransactionById = async (req, res) => {
+  try {
+    const { transactionId } = req.params;
+
+    // Product find karo jisme yeh transaction hai
+    const product = await Product.findOne({ "transactions._id": transactionId });
+
+    if (!product) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    // Transaction dhoondo
+    const transaction = product.transactions.find(
+      (t) => t._id.toString() === transactionId
+    );
+
+    if (!transaction) {
+      return res.status(404).json({ message: "Transaction not found in product" });
+    }
+
+    // 🔥 initialQuantity adjust karo (reverse effect)
+    if (transaction.type === "IN") {
+      // Agar IN delete kar rahe ho to stock ghatao
+      product.initialQuantity -= transaction.amount;
+    } else if (transaction.type === "OUT") {
+      // Agar OUT delete kar rahe ho to stock wapas badhao
+      product.initialQuantity += transaction.amount;
+    }
+
+    // Transaction ko remove karo
+    product.transactions = product.transactions.filter(
+      (t) => t._id.toString() !== transactionId
+    );
+
     await product.save();
 
-    res.json({ message: "Transaction deleted", product });
+    res.json(product); // updated product return karo
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+
+// ✅ Update Transaction By ID (without productId)
+export const updateTransactionById = async (req, res) => {
+  try {
+    const { transactionId } = req.params;
+    const { type, amount, date, remark } = req.body;
+
+    const newAmount = Number(amount); // 👈 safe conversion
+
+    // Product find karo jisme yeh transaction hai
+    const product = await Product.findOne({ "transactions._id": transactionId });
+
+    if (!product) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    // Purana transaction nikaalo
+    const transaction = product.transactions.id(transactionId);
+    if (!transaction) {
+      return res.status(404).json({ message: "Transaction not found in product" });
+    }
+
+    // 1️⃣ Purane transaction ka effect reverse karo
+    if (transaction.type === "IN") {
+      product.initialQuantity -= transaction.amount;
+    } else if (transaction.type === "OUT") {
+      product.initialQuantity += transaction.amount;
+    }
+
+    // 2️⃣ Transaction update karo
+    transaction.type = type;
+    transaction.amount = newAmount;
+    transaction.date = date;
+    transaction.remark = remark;
+
+    // 3️⃣ Naye transaction ka effect apply karo
+    if (type === "IN") {
+      product.initialQuantity += newAmount;
+    } else if (type === "OUT") {
+      product.initialQuantity -= newAmount;
+    }
+
+    await product.save();
+
+    res.json(product); // updated product bhejo
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// // ✅ Update Transaction By ID (without productId)
+// export const updateTransactionById = async (req, res) => {
+//   try {
+//     const { transactionId } = req.params;
+//     const { type, amount, date, remark } = req.body;
+
+//     // Product find karo jisme yeh transaction hai
+//     const product = await Product.findOne({ "transactions._id": transactionId });
+
+//     if (!product) {
+//       return res.status(404).json({ message: "Transaction not found" });
+//     }
+
+//     // Purana transaction nikaalo
+//     const transaction = product.transactions.id(transactionId);
+//     if (!transaction) {
+//       return res.status(404).json({ message: "Transaction not found in product" });
+//     }
+
+//     // 1️⃣ Purane transaction ka effect reverse karo
+//     if (transaction.type === "IN") {
+//       product.initialQuantity -= transaction.amount;
+//     } else if (transaction.type === "OUT") {
+//       product.initialQuantity += transaction.amount;
+//     }
+
+//     // 2️⃣ Transaction update karo
+//     transaction.type = type;
+//     transaction.amount = amount;
+//     transaction.date = date;
+//     transaction.remark = remark;
+
+//     // 3️⃣ Naye transaction ka effect apply karo
+//     if (type === "IN") {
+//       product.initialQuantity += amount;
+//     } else if (type === "OUT") {
+//       product.initialQuantity -= amount;
+//     }
+
+//     await product.save();
+
+//     res.json(product); // updated product bhejo
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
