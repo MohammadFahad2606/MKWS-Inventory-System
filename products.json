@@ -1,0 +1,706 @@
+[
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab.P/C",
+        "productId": "001",
+        "buyRate": 2350,
+        "initialQuantity": 0,
+        "description": "Tab.P/C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab.Ponstan",
+        "productId": "002",
+        "buyRate": 1850,
+        "initialQuantity": 0,
+        "description": "Tab.Ponstan",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab.Sodament",
+        "productId": "003",
+        "buyRate": 200,
+        "initialQuantity": 0,
+        "description": "Tab.Sodament",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. C.P.M",
+        "productId": "004",
+        "buyRate": 220,
+        "initialQuantity": 0,
+        "description": "Tab. C.P.M",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab.Dexsa",
+        "productId": "005",
+        "buyRate": 750,
+        "initialQuantity": 0,
+        "description": "Tab.Dexsa",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. B/F",
+        "productId": "006",
+        "buyRate": 800,
+        "initialQuantity": 0,
+        "description": "Tab. B/F",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. Flagyl",
+        "productId": "007",
+        "buyRate": 500,
+        "initialQuantity": 0,
+        "description": "Tab. Flagyl",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. B/C",
+        "productId": "008",
+        "buyRate": 300,
+        "initialQuantity": 0,
+        "description": "Tab. B/C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. F/x",
+        "productId": "009",
+        "buyRate": 800,
+        "initialQuantity": 0,
+        "description": "Tab. F/x",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. Emitel",
+        "productId": "010",
+        "buyRate": 550,
+        "initialQuantity": 0,
+        "description": "Tab. Emitel",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. P.M.Z",
+        "productId": "011",
+        "buyRate": 720,
+        "initialQuantity": 0,
+        "description": "Tab. P.M.Z",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. Bisacodyl",
+        "productId": "012",
+        "buyRate": 790,
+        "initialQuantity": 0,
+        "description": "Tab. Bisacodyl",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. Calcium",
+        "productId": "013",
+        "buyRate": 500,
+        "initialQuantity": 0,
+        "description": "Tab. Calcium",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. A/PHA",
+        "productId": "014",
+        "buyRate": 600,
+        "initialQuantity": 0,
+        "description": "Tab. A/PHA",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. F/A",
+        "productId": "015",
+        "buyRate": 500,
+        "initialQuantity": 0,
+        "description": "Tab. F/A",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tab. Trisíl",
+        "productId": "016",
+        "buyRate": 1150,
+        "initialQuantity": 0,
+        "description": "Tab. Trisíl",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Cap.O.T.C",
+        "productId": "017",
+        "buyRate": 3150,
+        "initialQuantity": 0,
+        "description": "Cap.O.T.C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Cap.Indosit",
+        "productId": "018",
+        "buyRate": 1000,
+        "initialQuantity": 0,
+        "description": "Cap.Indosit",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "On..N/M",
+        "productId": "019",
+        "buyRate": 70,
+        "initialQuantity": 0,
+        "description": "On..N/M",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. P/C",
+        "productId": "021",
+        "buyRate": 145,
+        "initialQuantity": 0,
+        "description": "Syrup. P/C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup.A/C",
+        "productId": "022",
+        "buyRate": 70,
+        "initialQuantity": 0,
+        "description": "Syrup.A/C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. C.P.M",
+        "productId": "023",
+        "buyRate": 65,
+        "initialQuantity": 0,
+        "description": "Syrup. C.P.M",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. B/C",
+        "productId": "024",
+        "buyRate": 80,
+        "initialQuantity": 0,
+        "description": "Syrup. B/C",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. Septran",
+        "productId": "025",
+        "buyRate": 220,
+        "initialQuantity": 0,
+        "description": "Syrup. Septran",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. P.M.Z",
+        "productId": "026",
+        "buyRate": 80,
+        "initialQuantity": 0,
+        "description": "Syrup. P.M.Z",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. Citrate",
+        "productId": "027",
+        "buyRate": 140,
+        "initialQuantity": 0,
+        "description": "Syrup. Citrate",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Syrup. K/P",
+        "productId": "028",
+        "buyRate": 80,
+        "initialQuantity": 0,
+        "description": "Syrup. K/P",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Mix. Carment",
+        "productId": "029",
+        "buyRate": 60,
+        "initialQuantity": 0,
+        "description": "Mix. Carment",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Sot. Amonia",
+        "productId": "031",
+        "buyRate": 300,
+        "initialQuantity": 0,
+        "description": "Sot. Amonia",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tin.Benzoinco",
+        "productId": "032",
+        "buyRate": 400,
+        "initialQuantity": 0,
+        "description": "Tin.Benzoinco",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip.R/L 1000ml",
+        "productId": "033",
+        "buyRate": 95,
+        "initialQuantity": 0,
+        "description": "Drip.R/L 1000ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip.R/L 500ml",
+        "productId": "034",
+        "buyRate": 65,
+        "initialQuantity": 0,
+        "description": "Drip.R/L 500ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip. N/S 1000ml",
+        "productId": "035",
+        "buyRate": 95,
+        "initialQuantity": 0,
+        "description": "Drip. N/S 1000ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip.N/S 500ml",
+        "productId": "036",
+        "buyRate": 65,
+        "initialQuantity": 0,
+        "description": "Drip.N/S 500ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip.D/W 1000ml",
+        "productId": "037",
+        "buyRate": 90,
+        "initialQuantity": 0,
+        "description": "Drip.D/W 1000ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip. D/W 500ml",
+        "productId": "038",
+        "buyRate": 65,
+        "initialQuantity": 0,
+        "description": "Drip. D/W 500ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Flagyl 100ml",
+        "productId": "041",
+        "buyRate": 90,
+        "initialQuantity": 0,
+        "description": "Flagyl 100ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "I/V Set",
+        "productId": "042",
+        "buyRate": 40,
+        "initialQuantity": 0,
+        "description": "I/V Set",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Drip. N/S 100ml",
+        "productId": "043",
+        "buyRate": 65,
+        "initialQuantity": 0,
+        "description": "Drip. N/S 100ml",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Inj.B/12",
+        "productId": "045",
+        "buyRate": 530,
+        "initialQuantity": 0,
+        "description": "Inj.B/12",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Inj.C.P.M",
+        "productId": "046",
+        "buyRate": 530,
+        "initialQuantity": 0,
+        "description": "Inj.C.P.M",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "INI. Dexa",
+        "productId": "047",
+        "buyRate": 190,
+        "initialQuantity": 0,
+        "description": "INI. Dexa",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "String 3.cc",
+        "productId": "049",
+        "buyRate": 1350,
+        "initialQuantity": 0,
+        "description": "String 3.cc",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Cotton Rol",
+        "productId": "051",
+        "buyRate": 490,
+        "initialQuantity": 0,
+        "description": "Cotton Rol",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Bandage 2\"",
+        "productId": "052",
+        "buyRate": 200,
+        "initialQuantity": 0,
+        "description": "Bandage 2\"",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Bandage 3\"",
+        "productId": "053",
+        "buyRate": 300,
+        "initialQuantity": 0,
+        "description": "Bandage 3\"",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "B/Plaster 3\"",
+        "productId": "054",
+        "buyRate": 385,
+        "initialQuantity": 0,
+        "description": "B/Plaster 3\"",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "K/P.Plaster",
+        "productId": "055",
+        "buyRate": 120,
+        "initialQuantity": 0,
+        "description": "K/P.Plaster",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Pyodine",
+        "productId": "056",
+        "buyRate": 1600,
+        "initialQuantity": 0,
+        "description": "Pyodine",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "ON CALL",
+        "productId": "057",
+        "buyRate": 18,
+        "initialQuantity": 0,
+        "description": "ON CALL",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Lancets",
+        "productId": "058",
+        "buyRate": 300,
+        "initialQuantity": 0,
+        "description": "Lancets",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Wentolin",
+        "productId": "059",
+        "buyRate": 50,
+        "initialQuantity": 0,
+        "description": "Wentolin",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Sawlon",
+        "productId": "061",
+        "buyRate": 500,
+        "initialQuantity": 0,
+        "description": "Sawlon",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "St.Needle 7/17",
+        "productId": "062",
+        "buyRate": 80,
+        "initialQuantity": 0,
+        "description": "St.Needle 7/17",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "St. Needle 8/20",
+        "productId": "063",
+        "buyRate": 80,
+        "initialQuantity": 0,
+        "description": "St. Needle 8/20",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "St.Thread",
+        "productId": "064",
+        "buyRate": 100,
+        "initialQuantity": 0,
+        "description": "St.Thread",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Tharmamiter",
+        "productId": "065",
+        "buyRate": 150,
+        "initialQuantity": 0,
+        "description": "Tharmamiter",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "U/S.ROLL",
+        "productId": "066",
+        "buyRate": 1600,
+        "initialQuantity": 0,
+        "description": "U/S.ROLL",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "U/S.JELL",
+        "productId": "067",
+        "buyRate": 2000,
+        "initialQuantity": 0,
+        "description": "U/S.JELL",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Black Cooper",
+        "productId": "069",
+        "buyRate": 250,
+        "initialQuantity": 0,
+        "description": "Black Cooper",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "S/T Pin",
+        "productId": "070",
+        "buyRate": 50,
+        "initialQuantity": 0,
+        "description": "S/T Pin",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "Inj.A.T.S",
+        "productId": "072",
+        "buyRate": 600,
+        "initialQuantity": 0,
+        "description": "Inj.A.T.S",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "P/Books",
+        "productId": "073",
+        "buyRate": 125,
+        "initialQuantity": 0,
+        "description": "P/Books",
+        "transactions": []
+    },
+    {
+        "user": {
+            "$oid": "68aded1f1557294f406356d0"
+        },
+        "name": "D' Glowes",
+        "productId": "074",
+        "buyRate": 50,
+        "initialQuantity": 0,
+        "description": "D' Glowes",
+        "transactions": []
+    }
+]

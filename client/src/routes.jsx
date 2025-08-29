@@ -11,6 +11,7 @@ import { SignIn, SignUp } from "@/pages/auth";
 import Test from "./pages/dashboard/Test";
 import StockPage from "./pages/dashboard/StockPage";
 import TransactionPage from "./pages/dashboard/transactions/TransactionPage";
+import LowStockPage from "./pages/dashboard/low-stock/LowStockPage";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -40,10 +41,17 @@ export const routes = [
       },
       {
         icon: <TableCellsIcon {...icon} />,
+        name: "LowStock",
+        path: "/lowstock",
+        element: <LowStockPage />,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
         name: "Stock In/Out",
         path: "/stockPage",
         element: <StockPage />,
       },
+      
       {
         icon: <RectangleStackIcon {...icon} />,
         name: "Transactions",       // sidebar me sirf ye dikhega
