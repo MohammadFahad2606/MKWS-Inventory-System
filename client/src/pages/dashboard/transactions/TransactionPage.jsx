@@ -14,6 +14,7 @@ import ExportButtons from "./ExportButtons";
 
 export default function TransactionPage() {
   const { productId } = useParams();
+  // console.log(productId)
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.products);
 
@@ -32,11 +33,12 @@ export default function TransactionPage() {
     let transactions = [];
     if (productId) {
       const product = items.find((p) => p._id === productId);
+      // console.log(product)
       if (product) {
         transactions = product.transactions.map((t) => ({
           ...t,
           productName: product.name,
-          productId: p._id
+          productId: product._id
         }));
       }
     } else {
