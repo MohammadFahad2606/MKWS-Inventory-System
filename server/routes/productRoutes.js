@@ -30,8 +30,8 @@ router.post("/product/:id/out", protect, stockOut);
 // updateTransaction  /  deleteTransaction routes
 router.put("/product/:productId/transaction/:transactionId", protect, updateTransaction);
 router.delete("/product/:productId/transaction/:transactionId", protect, deleteTransaction);
-router.delete("/:transactionId", deleteTransactionById);
+router.delete("/:transactionId",protect, deleteTransactionById);
 // update transaction by ID
-router.put("/transaction/:transactionId", updateTransactionById);
+router.put("/transaction/:transactionId",protect, updateTransactionById);
 
 export default router;
