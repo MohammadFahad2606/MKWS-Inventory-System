@@ -26,8 +26,11 @@ export default function StockPage() {
   const [alert, setAlert] = useState({ show: false, type: "success", message: "" });
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (!products || products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products]);
+  
 
   // Auto date/time unless manual
   useEffect(() => {
