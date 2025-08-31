@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import ApexCharts from "apexcharts";
+import React, { useEffect, useRef } from 'react';
+import ApexCharts from 'apexcharts';
 
 export default function ProductInfoCard({ product }) {
   const chartRef = useRef(null);
@@ -8,22 +8,23 @@ export default function ProductInfoCard({ product }) {
 
   // Calculate totals
   const totalIn = product.transactions
-    .filter((t) => t.type === "IN")
+    .filter((t) => t.type === 'IN')
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalOut = product.transactions
-    .filter((t) => t.type === "OUT")
+    .filter((t) => t.type === 'OUT')
     .reduce((sum, t) => sum + t.amount, 0);
 
   const inHand = totalIn - totalOut;
-  const inHandPercentage = totalIn > 0 ? ((inHand / totalIn) * 100).toFixed(1) : 0;
+  const inHandPercentage =
+    totalIn > 0 ? ((inHand / totalIn) * 100).toFixed(1) : 0;
 
   // Render chart
   useEffect(() => {
     const options = {
       series: [parseFloat(inHandPercentage)],
       chart: {
-        type: "radialBar",
+        type: 'radialBar',
         height: 200,
         offsetY: -10,
       },
@@ -32,14 +33,14 @@ export default function ProductInfoCard({ product }) {
           startAngle: -90,
           endAngle: 90,
           track: {
-            background: "var(--color-secondary-bg)",
-            strokeWidth: "97%",
+            background: 'var(--color-secondary-bg)',
+            strokeWidth: '97%',
             margin: 5,
             dropShadow: {
               enabled: true,
               top: 2,
               left: 0,
-              color: "var(--shadow-color)",
+              color: 'var(--shadow-color)',
               opacity: 0.3,
               blur: 2,
             },
@@ -48,22 +49,22 @@ export default function ProductInfoCard({ product }) {
             name: { show: false },
             value: {
               offsetY: -2,
-              fontSize: "22px",
+              fontSize: '22px',
               formatter: function (val) {
-                return val + "%";
+                return val + '%';
               },
               style: {
-                colors: ["var(--color-text-on-primary)"],
+                colors: ['var(--color-foreground)'], // changed from text-on-primary
               },
             },
           },
         },
       },
       fill: {
-        colors: ["var(--color-warning)"], // use theme warning color (mustard)
-        type: "solid",
+        colors: ['var(--color-warning)'],
+        type: 'solid',
       },
-      labels: ["In Hand"],
+      labels: ['In Hand'],
     };
 
     const chart = new ApexCharts(chartRef.current, options);
@@ -74,15 +75,23 @@ export default function ProductInfoCard({ product }) {
 
   return (
     <div
-      className="p-6 rounded-lg w-full"
-      style={{ backgroundColor: "var(--color-surface)", color: "var(--color-text-on-primary)" }}
+      className="w-full rounded-lg p-6"
+      style={{
+        backgroundColor: 'var(--color-surface)',
+        color: 'var(--color-foreground)',
+      }}
     >
       {/* Header */}
-      <div className="flex items-center mb-4 ">
-        <span className="material-icons mr-2" style={{ color: "var(--color-text)" }}>
+      <div className="mb-4 flex items-center">
+        <span
+          className="material-icons mr-2"
+          style={{ color: 'var(--color-mutedForeground)' }}
+        >
           Info :
         </span>
-        <h2 className="text-lg font-semibold text-[var(--color-text)] " >{product.name}</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-foreground)]">
+          {product.name}
+        </h2>
       </div>
 
       {/* Semi-Circle Chart */}
@@ -90,8 +99,8 @@ export default function ProductInfoCard({ product }) {
 
       {/* Product Details */}
       <div
-        className="rounded-lg p-4 space-y-2 text-sm"
-        style={{ backgroundColor: "var(--color-secondary-bg)" }}
+        className="space-y-2 rounded-lg p-4 text-sm"
+        style={{ backgroundColor: 'var(--color-secondary-bg)' }}
       >
         <div className="flex justify-between">
           <span>Name</span>
@@ -102,26 +111,26 @@ export default function ProductInfoCard({ product }) {
           <span>{product.buyRate.toLocaleString()}</span>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 mt-2 text-center">
+        <div className="mt-2 grid grid-cols-3 gap-2 text-center">
           <div
-            className="p-2 rounded"
-            style={{ backgroundColor: "var(--color-success)" }}
+            className="rounded p-2"
+            style={{ backgroundColor: 'var(--color-success)', color: 'var(--color-foreground)' }}
           >
             TOTAL IN
             <br />
             <span>{totalIn}</span>
           </div>
           <div
-            className="p-2 rounded"
-            style={{ backgroundColor: "var(--color-error)" }}
+            className="rounded p-2"
+            style={{ backgroundColor: 'var(--color-destructive)', color: 'var(--color-foreground)' }}
           >
             TOTAL OUT
             <br />
             <span>{totalOut}</span>
           </div>
           <div
-            className="p-2 rounded"
-            style={{ backgroundColor: "var(--color-text)" }}
+            className="rounded p-2"
+            style={{ backgroundColor: 'var(--color-mutedForeground)', color: 'var(--color-foreground)' }}
           >
             IN HAND
             <br />

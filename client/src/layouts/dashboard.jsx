@@ -15,7 +15,10 @@ export function Dashboard() {
   const { sidenavType } = controller;
 
   return (
-    <div className="min-h-screen bg-blue-gray-50/50">
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: "var(--color-background)" }}
+    >
       <Sidenav
         routes={routes}
         brandImg={
@@ -27,8 +30,12 @@ export function Dashboard() {
         <Configurator />
         <IconButton
           size="lg"
-          color="white"
-          className="fixed bottom-8 right-8 z-40 rounded-full shadow-blue-gray-900/10"
+          className="fixed bottom-8 right-8 z-40 rounded-full"
+          style={{
+            backgroundColor: "var(--color-card)",
+            color: "var(--color-foreground)",
+            boxShadow: "0 4px 6px var(--color-ring)",
+          }}
           ripple={false}
           onClick={() => setOpenConfigurator(dispatch, true)}
         >
@@ -43,7 +50,7 @@ export function Dashboard() {
               ))
           )}
         </Routes>
-        <div className="text-blue-gray-600">
+        <div style={{ color: "var(--color-mutedForeground)" }}>
           <Footer />
         </div>
       </div>

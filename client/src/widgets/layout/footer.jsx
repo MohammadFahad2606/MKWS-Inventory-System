@@ -6,16 +6,35 @@ export function Footer({ brandName, brandLink, routes }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="py-2">
+    <footer
+      className="py-2"
+      style={{ backgroundColor: "var(--color-sidebar)", color: "var(--color-sidebarForeground)" }}
+    >
       <div className="flex w-full flex-wrap items-center justify-center gap-6 px-2 md:justify-between">
-        <Typography variant="small" className="font-normal text-inherit text-center md:text-left">
+        <Typography
+          variant="small"
+          className="font-normal text-inherit text-center md:text-left"
+        >
           &copy; {year}, made with{" "}
-          <HeartIcon className="-mt-0.5 inline-block h-3.5 w-3.5 text-red-600" /> by{" "}
+          <HeartIcon
+            className="-mt-0.5 inline-block h-3.5 w-3.5"
+            style={{ color: "var(--color-destructive)" }}
+          />{" "}
+          by{" "}
           <a
             href={brandLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-blue-500 font-bold"
+            className="transition-colors font-bold"
+            style={{
+              color: "var(--color-primaryForeground)",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--color-accent)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--color-foreground)")
+            }
           >
             {brandName}
           </a>{" "}
@@ -29,7 +48,14 @@ export function Footer({ brandName, brandLink, routes }) {
                 href={path}
                 rel="noopener noreferrer"
                 variant="small"
-                className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500"
+                className="py-0.5 px-1 font-normal transition-colors"
+                style={{ color: "var(--color-sidebarForeground)" }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = "var(--color-accent)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = "var(--color-sidebarForeground)")
+                }
               >
                 {name}
               </Typography>
@@ -43,12 +69,10 @@ export function Footer({ brandName, brandLink, routes }) {
 
 Footer.defaultProps = {
   brandName: "Mohammad Fahad",
-  brandLink: "https://mfahaddev.netlify.app/", 
+  brandLink: "https://mfahaddev.netlify.app/",
   routes: [
     { name: "Home", path: "/dashboard/home" },
     { name: "Products", path: "/dashboard/product" },
-    { name: "Tables", path: "/dashboard/tables" },
-    { name: "Notifications", path: "/dashboard/notifications" },
   ],
 };
 

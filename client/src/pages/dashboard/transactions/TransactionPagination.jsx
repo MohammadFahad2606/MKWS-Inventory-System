@@ -9,18 +9,30 @@ export default function TransactionPagination({
 
   return (
     <div className="flex justify-center space-x-4 mt-6">
+      {/* commit: replaced gray-300 with mutedForeground token */}
       <button
-        className="bg-gray-300 px-4 py-2 rounded-lg"
+        className="px-4 py-2 rounded-lg"
+        style={{
+          backgroundColor: "var(--color-mutedForeground)",
+          color: "var(--color-foreground)",
+        }}
         disabled={currentPage === 1}
         onClick={() => setCurrentPage((prev) => prev - 1)}
       >
         Previous
       </button>
+
       <span className="flex items-center px-2">
         Page {currentPage} of {totalPages}
       </span>
+
+      {/* commit: replaced gray-300 with mutedForeground token */}
       <button
-        className="bg-gray-300 px-4 py-2 rounded-lg"
+        className="px-4 py-2 rounded-lg"
+        style={{
+          backgroundColor: "var(--color-mutedForeground)",
+          color: "var(--color-foreground)",
+        }}
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage((prev) => prev + 1)}
       >

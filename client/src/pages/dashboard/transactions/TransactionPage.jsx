@@ -95,7 +95,8 @@ export default function TransactionPage() {
   if (productId && !singleProduct) return <p>Product not found</p>;
 
   return (
-    <div className="bg-[var(--color-bg)] min-h-screen">
+    <div className="bg-[var(--color-background)] min-h-screen">
+
       <TransactionHeader
         title={productId ? "Product Transactions" : "All Transactions"}
       />

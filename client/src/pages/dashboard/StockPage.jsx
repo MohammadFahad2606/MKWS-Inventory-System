@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Typography, Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,7 +70,7 @@ export default function StockPage() {
   );
 
   return (
-    <div className="p-4" style={{ background: "var(--color-bg)", color: "var(--color-text)" }}>
+    <div className="p-4" style={{ background: "var(--color-background)", color: "var(--color-foreground)" }}>
       <Typography variant="h4" className="mb-4" style={{ color: "var(--color-primary)" }}>
         Stock In/Out
       </Typography>
@@ -105,7 +104,7 @@ export default function StockPage() {
 
           <Button
             onClick={handleSave}
-            style={{ background: "var(--color-primary)", color: "var(--color-text-on-primary)" }}
+            style={{ background: "var(--color-primary)", color: "var(--color-primaryForeground)" }}
           >
             Save
           </Button>

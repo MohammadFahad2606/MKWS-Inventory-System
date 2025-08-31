@@ -10,9 +10,9 @@ export default function StockSearch({ search, setSearch }) {
         onChange={(e) => setSearch(e.target.value)}
         className="!border !rounded-md"
         style={{
-          background: "var(--color-surface)",
-          borderColor: "var(--color-muted)",
-          color: "var(--color-text)",
+          background: "var(--color-background)",
+          borderColor: "var(--color-foreground)",
+          color: "var(--color-foreground)",
         }}
       />
     </div>

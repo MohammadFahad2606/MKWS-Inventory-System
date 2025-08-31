@@ -1,10 +1,12 @@
 import {
-  HomeIcon,
   UserCircleIcon,
-  TableCellsIcon,
-  InformationCircleIcon,
-  ServerStackIcon,
-  RectangleStackIcon,
+  ExclamationTriangleIcon,
+  Squares2X2Icon,
+  ArrowPathIcon,
+  CubeIcon,
+  ArrowsRightLeftIcon,
+  ArrowRightOnRectangleIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { Home, Product,} from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
@@ -22,43 +24,43 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
+        icon: <Squares2X2Icon {...icon} />,
         name: "dashboard",
         path: "/home",
         element: <Home />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
+        icon: <CubeIcon {...icon} />,
         name: "Product",
         path: "/product",
         element: <Product />,  // updated
       },
+      // {
+      //   icon: <UserCircleIcon {...icon} />,
+      //   name: "Test",
+      //   path: "/test",
+      //   element: <Test/>,  // updated
+      // },
       {
-        icon: <UserCircleIcon {...icon} />,
-        name: "Test",
-        path: "/test",
-        element: <Test/>,  // updated
-      },
-      {
-        icon: <TableCellsIcon {...icon} />,
+        icon: <ExclamationTriangleIcon {...icon} />,
         name: "LowStock",
         path: "/lowstock",
         element: <LowStockPage />,
       },
       {
-        icon: <TableCellsIcon {...icon} />,
+        icon: <ArrowPathIcon {...icon} />,
         name: "Stock In/Out",
         path: "/stockPage",
         element: <StockPage />,
       },
       
       {
-        icon: <RectangleStackIcon {...icon} />,
+        icon: <ArrowsRightLeftIcon {...icon} />,
         name: "Transactions",       // sidebar me sirf ye dikhega
         path: "/transactions",       // last 15 transactions
         element: <TransactionPage />,
         // ✅ ye property add karo, sidebar me dikha na ho
-        hidden: true,  
+       
       },
       // product-specific route, sidebar me nahi
       {
@@ -71,20 +73,24 @@ export const routes = [
     ],
   },
   {
-    title: "auth pages",
+
+    // in future auth page show title title: "auth pages",
+    title: "",
     layout: "auth",
     pages: [
       {
-        icon: <ServerStackIcon {...icon} />,
+        icon: <ArrowRightOnRectangleIcon {...icon} />,
         name: "sign in",
         path: "/sign-in",
         element: <SignIn />,
+        hidden: true,
       },
       {
-        icon: <RectangleStackIcon {...icon} />,
+        icon: <UserPlusIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
+        hidden: true,
       },
       
     ],
