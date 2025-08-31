@@ -23,17 +23,17 @@ export function Configurator() {
   return (
     <aside
       className={`fixed top-0 right-0 z-50 h-screen w-96 
-      bg-[var(--color-surface)] text-[var(--color-text)] px-2.5 shadow-lg 
+      bg-[var(--color-background)] text-[var(--color-foreground)] px-2.5 shadow-lg 
       transition-transform duration-300 
       ${openConfigurator ? "translate-x-0" : "translate-x-96"}`}
     >
       {/* Header */}
       <div className="flex items-start justify-between px-6 pt-8 pb-6">
         <div>
-          <Typography variant="h5" className="text-[var(--color-text)]">
+          <Typography variant="h5" className="text-[var(--color-foreground)]">
             App Configurator
           </Typography>
-          <Typography className="font-normal text-[var(--color-muted)]">
+          <Typography className="font-normal text-[var(--color-mutedForeground)]">
             Customize theme across the app.
           </Typography>
         </div>
@@ -104,7 +104,9 @@ export function Configurator() {
           <div className="mt-3 grid grid-cols-3 gap-3">
             {/* Icon Color */}
             <div className="flex flex-col gap-2">
-              <Typography variant="small" className="text-[var(--color-muted)]">Icon</Typography>
+              <Typography variant="small" className="text-[var(--color-mutedForeground)]">
+                Icon
+              </Typography>
               <input
                 type="color"
                 value={theme?.custom?.iconColor || getComputedStyle(document.documentElement).getPropertyValue("--color-icon").trim()}
@@ -115,7 +117,9 @@ export function Configurator() {
 
             {/* Text Color */}
             <div className="flex flex-col gap-2">
-              <Typography variant="small" className="text-[var(--color-muted)]">Text</Typography>
+              <Typography variant="small" className="text-[var(--color-mutedForeground)]">
+                Text
+              </Typography>
               <input
                 type="color"
                 value={theme?.custom?.text || getComputedStyle(document.documentElement).getPropertyValue("--color-text").trim()}
@@ -126,7 +130,9 @@ export function Configurator() {
 
             {/* Shadow Color */}
             <div className="flex flex-col gap-2">
-              <Typography variant="small" className="text-[var(--color-muted)]">Shadow</Typography>
+              <Typography variant="small" className="text-[var(--color-mutedForeground)]">
+                Shadow
+              </Typography>
               <input
                 type="color"
                 value={theme?.custom?.shadowColor || "#000000"}
@@ -135,7 +141,7 @@ export function Configurator() {
               />
             </div>
           </div>
-          <Typography variant="small" className="text-[var(--color-muted)] mt-2">
+          <Typography variant="small" className="text-[var(--color-mutedForeground)] mt-2">
             Tip: Shadow color uses 35% opacity automatically.
           </Typography>
         </div>
