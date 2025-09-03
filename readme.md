@@ -1,4 +1,6 @@
 
+---
+
 # 🗃 MKWS Inventory System
 
 Inventory Management System for **Muslim Khatri Medical & Diagnostic Center**
@@ -9,45 +11,80 @@ Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoD
 ## 📂 Project Structure
 
 ```
-├── client
-│   ├── .env
-│   ├── package.json
-│   ├── public
-│   ├── src
-│   │   ├── api
-│   │   │   └── api.js
-│   │   ├── app
-│   │   │   └── store.js         # Redux store
-│   │   ├── features
-│   │   │   ├── authSlice.js     # Auth state (login, signup)
-│   │   │   └── productSlice.js  # Product state (CRUD)
-│   │   ├── pages
-│   │   │   ├── auth
-│   │   │   │   ├── sign-in.jsx
-│   │   │   │   └── sign-up.jsx
-│   │   │   └── dashboard
-│   │   │       ├── product.jsx
-│   │   │       └── home.jsx
-│   │   ├── main.jsx
-│   │   └── App.jsx
-│   └── vite.config.js
-└── server
-    ├── .env
-    ├── server.js
-    ├── config/db.js
-    ├── models
-    │   ├── User.js
-    │   └── Product.js
-    ├── controllers
-    │   ├── userController.js
-    │   └── productController.js
-    ├── routes
-    │   ├── userRoutes.js
-    │   └── productRoutes.js
-    ├── middleware
-    │   ├── authMiddleware.js
-    │   └── errorMiddleware.js
-    └── utils/generateToken.js
+├── .git                        # Git repo metadata (commits, branches)
+├── .gitignore                  # Ignore files for Git (node_modules, dist, etc.)
+├── client                      # React frontend source code
+│   ├── .env                    # Frontend environment variables (API URL)
+│   ├── .gitignore              # Git ignore rules for frontend
+│   ├── CHANGELOG.md            # Track changes/version history
+│   ├── dist                    # Production build (generated via `npm run build`)
+│   │   ├── assets              # Minified JS/CSS bundles from Vite build
+│   │   ├── css                 # Compiled Tailwind CSS
+│   │   ├── img                 # Optimized images for production
+│   │   └── index.html          # Entry point for production frontend
+│   ├── index.html              # Entry HTML file for dev (Vite serves this)
+│   ├── jsconfig.json           # Path/alias configuration for JS imports
+│   ├── LICENSE                 # License file for project usage
+│   ├── node_modules            # Installed frontend dependencies
+│   ├── package-lock.json       # Auto-generated dependency tree lock
+│   ├── package.json            # Frontend project config & dependencies
+│   ├── postcss.config.cjs      # PostCSS config (used by Tailwind)
+│   ├── prettier.config.js      # Prettier config (code formatting)
+│   ├── public                  # Public static assets (copied as-is in build)
+│   │   ├── css/tailwind.css    # Raw Tailwind CSS file
+│   │   └── img/                # Static images (logos, icons, backgrounds)
+│   ├── src                     # Main React source code
+│   │   ├── api/api.js          # Axios API instance
+│   │   ├── App.jsx             # Root React component
+│   │   ├── components/common   # Reusable small UI components
+│   │   ├── configs             # Global configs (charts, constants)
+│   │   ├── context             # React Context (global providers)
+│   │   ├── data                # Dummy data for charts/tables
+│   │   ├── layouts             # Layouts (auth, dashboard, wrapper)
+│   │   ├── main.jsx            # Entry file, renders React app
+│   │   ├── pages               # All main pages/screens
+│   │   │   ├── auth            # Sign-in, sign-up pages
+│   │   │   ├── dashboard       # Dashboard related pages
+│   │   │   ├── low-stock       # Low stock alerts UI
+│   │   │   ├── products        # Product CRUD UI
+│   │   │   ├── stock           # Stock management components
+│   │   │   └── transactions    # Transaction list/detail UI
+│   │   ├── redux               # Redux Toolkit slices & store
+│   │   ├── routes              # ProtectedRoute wrapper
+│   │   ├── routes.jsx          # App routing configuration
+│   │   ├── theme               # Theme colors, CSS, theme switcher
+│   │   └── widgets             # Cards, charts, navbar, sidenav etc.
+│   ├── tailwind.config.cjs     # Tailwind CSS config file
+│   └── vite.config.js          # Vite bundler configuration
+├── Folder stucture .tex        # Documentation for folder structure
+├── readme.md                   # Project documentation
+└── server                      # Node.js/Express backend
+    ├── .env                    # Backend environment variables
+    ├── .gitignore              # Git ignore rules for backend
+    ├── config/db.js            # MongoDB connection setup
+    ├── controllers             # Business logic (API handlers)
+    │   ├── productController.js# Product CRUD + transaction logic
+    │   └── userController.js   # User auth, profile, login/signup
+    ├── dist                    # Compiled backend (build output)
+    │   ├── .env                # Env copy for build
+    │   │   ├── .env
+    │   │   └── server.exe
+    │   └── server.exe          # Compiled backend executable (production run)
+    ├── middleware              # Express middlewares
+    │   ├── authMiddleware.js   # JWT auth verification
+    │   └── errorMiddleware.js  # Error handling middleware
+    ├── models                  # MongoDB Mongoose schemas
+    │   ├── Product.js          # Product model with transactions
+    │   └── User.js             # User model with password hashing
+    ├── node_modules            # Installed backend dependencies
+    ├── package-lock.json       # Backend dependency tree lock
+    ├── package.json            # Backend project config & dependencies
+    ├── routes                  # Express routes
+    │   ├── productRoutes.js    # Routes for product CRUD & transactions
+    │   └── userRoutes.js       # Routes for authentication & profile
+    ├── server.js               # Express app entry point
+    └── utils/generateToken.js  # JWT token generator helper
+
 ```
 
 ---
@@ -92,167 +129,45 @@ VITE_API_URL=http://localhost:4000/api
 | PUT    | `/product/:id` | ✏️ Update product (protected)    |
 | DELETE | `/product/:id` | 🗑 Delete product (protected)    |
 
-**Protected Routes require header:**
-
-```
-Authorization: Bearer <JWT_TOKEN>
-```
-
 ---
 
-## 📌 Example Requests
+### Stock Transaction Routes
 
-### Create Product
+| Method | Endpoint                                         | Description                        |
+| ------ | ------------------------------------------------ | ---------------------------------- |
+| POST   | `/product/:id/in`                                | ➕ Add stock (In) for product       |
+| POST   | `/product/:id/out`                               | ➖ Remove stock (Out) for product   |
+| PUT    | `/product/:productId/transaction/:transactionId` | ✏️ Update transaction (by product) |
+| DELETE | `/product/:productId/transaction/:transactionId` | 🗑 Delete transaction (by product) |
+| PUT    | `/transaction/:transactionId`                    | ✏️ Update transaction **by ID**    |
+| DELETE | `/transaction/:transactionId`                    | 🗑 Delete transaction **by ID**    |
 
-```bash
-curl -s -X POST http://localhost:4000/api/products/product \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
--d '{
-  "name": "Paracetamol 500mg",
-  "productId": "PCM-500",
-  "buyRate": 2.75,
-  "initialQuantity": 100,
-  "description": "Pain reliever / fever reducer"
-}'
-```
-
-### Get All Products
-
-```bash
-curl -s -X GET http://localhost:4000/api/products/products
-```
-
-### Get Single Product
-
-```bash
-curl -s -X GET http://localhost:4000/api/products/product/<PRODUCT_ID>
-```
-
-### Update Product
-
-```bash
-curl -s -X PUT http://localhost:4000/api/products/product/<PRODUCT_ID> \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
--d '{"name":"Updated Product Name","buyRate":3.5}'
-```
-
-### Delete Product
-
-```bash
-curl -s -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID> \
--H "Authorization: Bearer <TOKEN>"
-```
-
----
-
-## 📦 Product In/Out (Stock Transaction) API
-
-Ye API **initial quantity change nahi karegi**, sirf **In aur Out transactions** record karegi. Har transaction me user date aur optional remark bhi de sakta hai.
-
-### Model Update (optional info)
-
-Server me `Product.js` me **Transaction history** future ke liye optional add kar sakte ho:
-
-```js
-transactions: [
-  {
-    type: { type: String, enum: ["IN","OUT"], required: true },
-    amount: { type: Number, required: true },
-    date: { type: Date, required: true },
-    remark: { type: String },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  }
-]
-```
-
----
-
-### Routes (`/api/products/transaction`)
-
-| Method | Endpoint                                         | Description                      |
-| ------ | ------------------------------------------------ | -------------------------------- |
-| POST   | `/product/:id/in`                                | ➕ Add stock (In) for product     |
-| POST   | `/product/:id/out`                               | ➖ Remove stock (Out) for product |
-| PUT    | `/product/:productId/transaction/:transactionId` | ✏️ Update existing transaction   |
-| DELETE | `/product/:productId/transaction/:transactionId` | 🗑 Delete a transaction          |
-
-> Headers me JWT token required hoga:
-> `Authorization: Bearer <TOKEN>`
-
----
-
-### Request Body Example (In / Out / Update)
-
-```json
-{
-  "type": "IN",          // Only for update
-  "quantity": 10,
-  "date": "2025-08-17",
-  "remark": "New stock received from supplier"
-}
-```
+> All protected routes require header:
+> `Authorization: Bearer <JWT_TOKEN>`
 
 ---
 
 ### Example API Calls
 
-#### Stock In
+#### Delete Transaction by ID
 
 ```bash
-curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/in \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
--d '{"quantity":50,"date":"2025-08-17","remark":"Received new stock"}'
-```
-
-#### Stock Out
-
-```bash
-curl -X POST http://localhost:4000/api/products/product/<PRODUCT_ID>/out \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
--d '{"quantity":5,"date":"2025-08-17","remark":"Sold to customer"}'
-```
-
-#### Update Transaction
-
-```bash
-curl -X PUT http://localhost:4000/api/products/product/<PRODUCT_ID>/transaction/<TRANSACTION_ID> \
--H "Content-Type: application/json" \
--H "Authorization: Bearer <TOKEN>" \
--d '{"type":"OUT","quantity":3,"remark":"Correction"}'
-```
-
-#### Delete Transaction
-
-```bash
-curl -X DELETE http://localhost:4000/api/products/product/<PRODUCT_ID>/transaction/<TRANSACTION_ID> \
+curl -X DELETE http://localhost:4000/api/products/transaction/<TRANSACTION_ID> \
 -H "Authorization: Bearer <TOKEN>"
 ```
 
----
+#### Update Transaction by ID
 
-### Response Example
-
-```json
-{
-  "_id": "64df123abc456def7890gh12",
-  "name": "Paracetamol 500mg",
-  "productId": "PCM-500",
-  "buyRate": 2.75,
-  "initialQuantity": 145,
-  "transactions": [
-    { "_id": "64df125abc456def7890gh13", "type": "IN", "amount": 50, "date": "2025-08-17", "remark": "Received new stock" },
-    { "_id": "64df126abc456def7890gh14", "type": "OUT", "amount": 5, "date": "2025-08-17", "remark": "Sold to customer" }
-  ]
-}
+```bash
+curl -X PUT http://localhost:4000/api/products/transaction/<TRANSACTION_ID> \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <TOKEN>" \
+-d '{"type":"OUT","amount":5,"remark":"Correction"}'
 ```
 
 ---
 
-## ⚡ Frontend Setup
+## ⚡ Frontend Setup (Development)
 
 ```bash
 cd client
@@ -260,13 +175,11 @@ npm install
 npm run dev
 ```
 
-* Uses **Redux Toolkit** for state management
-* Product Page (`/dashboard/product`) integrates with Product APIs
-* Authentication handled with JWT stored in `localStorage`
+Runs frontend at `http://localhost:5173`
 
 ---
 
-## 🚀 Backend Setup
+## 🚀 Backend Setup (Development)
 
 ```bash
 cd server
@@ -274,6 +187,94 @@ npm install
 npm run dev
 ```
 
-Server runs on [http://localhost:4000](http://localhost:4000)
+Runs backend at `http://localhost:4000`
+
+---
+
+## 📦 Production Build
+
+1. **Build Frontend (React → dist folder):**
+
+   ```bash
+   cd client
+   npm run build
+   ```
+
+2. **Build Backend (Node → EXE):**
+
+   ```bash
+   cd server
+   npm run build
+   ```
+
+   This generates:
+
+   ```
+   server/dist/server.exe
+   ```
+
+3. Now you can run backend + serve frontend with:
+
+   ```bash
+   server/dist/server.exe
+   ```
+
+---
+
+## 🖥 Run Server as Windows Service (Auto Start at Boot)
+
+We’ll use **NSSM (Non-Sucking Service Manager)** to install `server.exe` as a service.
+
+1. **Download NSSM:**
+   👉 [https://nssm.cc/download](https://nssm.cc/download)
+
+2. Extract and copy `nssm.exe` → `C:\Windows\System32`
+
+3. Open **Command Prompt as Administrator** and run:
+
+   ```cmd
+   nssm install MKWS-Server
+   ```
+
+   Fill in:
+
+   * **Path:**
+     `C:\Users\M FAHAD\Desktop\final\server\dist\server.exe`
+   * **Startup directory:**
+     `C:\Users\M FAHAD\Desktop\final\server\dist`
+
+   Click **Install Service**.
+
+4. Start the service:
+
+   ```cmd
+   nssm start MKWS-Server
+   ```
+
+5. Service will now **auto-start** whenever Windows boots.
+
+---
+
+## 🖱 Desktop Shortcut for Dashboard
+
+For easy access, create a shortcut on Desktop:
+
+1. Right-click Desktop → **New → Shortcut**
+2. Location:
+
+   ```
+   http://localhost:4000
+   ```
+3. Name it: `MKWS Inventory Dashboard`
+
+Now backend will already be running in the background (as service), and users can simply double-click this shortcut to open the dashboard in their browser.
+
+---
+
+✅ With this setup:
+
+* Backend runs silently as a service (no console window).
+* React frontend build is served from the same `server.exe`.
+* User only needs Desktop shortcut → opens `http://localhost:4000`.
 
 ---
