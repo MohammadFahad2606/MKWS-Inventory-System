@@ -1,9 +1,9 @@
-import Product from "../models/Product.js";
+const Product = require("../models/Product");
 
 // @desc    Create new product
 // @route   POST /api/product
 // @access  Private
-export const createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
     const { name, productId, buyRate, initialQuantity, description } = req.body;
 
@@ -15,16 +15,11 @@ export const createProduct = async (req, res) => {
       name,
       productId,
       buyRate,
-      initialQuantity: initialQuantity,
+      initialQuantity,
       description,
-      user: req.userId, // 👈 from middleware
+      user: req.userId,
       transactions: [
-        {
-          type: "IN",
-          amount: initialQuantity,
-          remark: "Initial stock",
-          date: new Date(),
-        },
+        { type: "IN", amount: initialQuantity, remark: "Initial stock", date: new Date() },
       ],
     });
 
@@ -38,7 +33,7 @@ export const createProduct = async (req, res) => {
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Private
-export const getProducts = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
     const search = req.query.search || "";
     const query = search
@@ -55,7 +50,7 @@ export const getProducts = async (req, res) => {
 // @desc    Get single product
 // @route   GET /api/product/:id
 // @access  Private
-export const getProductById = async (req, res) => {
+const getProductById = async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
@@ -68,17 +63,16 @@ export const getProductById = async (req, res) => {
 // @desc    Update product
 // @route   PUT /api/product/:id
 // @access  Private
-export const updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
-    // initialQuantity remove from req.body
-    const { name, productId, buyRate,  description } = req.body;
+
+    const { name, productId, buyRate, description } = req.body;
 
     product.name = name || product.name;
     product.productId = productId || product.productId;
     product.buyRate = buyRate || product.buyRate;
-    // product.initialQuantity = initialQuantity ?? product.initialQuantity;
     product.description = description || product.description;
 
     const updatedProduct = await product.save();
@@ -91,7 +85,7 @@ export const updateProduct = async (req, res) => {
 // @desc    Delete product
 // @route   DELETE /api/product/:id
 // @access  Private
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findOne({ _id: req.params.id, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
@@ -102,32 +96,24 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// @desc    Stock In (Increase Quantity)
+
+// @desc    Stock In
 // @route   POST /api/product/:id/in
 // @access  Private
-export const stockIn = async (req, res) => {
+const stockIn = async (req, res) => {
   try {
     const { id } = req.params;
     const { quantity, date, remark } = req.body;
-    const amount = quantity; // rename quantity -> amount
+    const amount = quantity;
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: "Amount is required and must be greater than 0" });
-    }
+    if (!amount || amount <= 0) return res.status(400).json({ message: "Amount is required and must be greater than 0" });
 
     const product = await Product.findOne({ _id: id, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     product.initialQuantity += amount;
-
-    // transaction history array bana lo (future reporting ke liye)
-    if (!product.transactions) product.transactions = [];
-    product.transactions.push({
-      type: "IN",
-      amount,
-      date: date || new Date(),
-      remark: remark || "",
-    });
+    product.transactions = product.transactions || [];
+    product.transactions.push({ type: "IN", amount, date: date || new Date(), remark: remark || "" });
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
@@ -136,35 +122,24 @@ export const stockIn = async (req, res) => {
   }
 };
 
-// @desc    Stock Out (Decrease Quantity)
+// @desc    Stock Out
 // @route   POST /api/product/:id/out
 // @access  Private
-export const stockOut = async (req, res) => {
+const stockOut = async (req, res) => {
   try {
     const { id } = req.params;
     const { quantity, date, remark } = req.body;
-    const amount = quantity; // rename quantity -> amount
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: "Amount is required and must be greater than 0" });
-    }
+    const amount = quantity;
+
+    if (!amount || amount <= 0) return res.status(400).json({ message: "Amount is required and must be greater than 0" });
 
     const product = await Product.findOne({ _id: id, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
-
-    if (product.initialQuantity < amount) {
-      return res.status(400).json({ message: "Not enough stock" });
-    }
+    if (product.initialQuantity < amount) return res.status(400).json({ message: "Not enough stock" });
 
     product.initialQuantity -= amount;
-
-    // transaction history
-    if (!product.transactions) product.transactions = [];
-    product.transactions.push({
-      type: "OUT",
-      amount,
-      date: date || new Date(),
-      remark: remark || "",
-    });
+    product.transactions = product.transactions || [];
+    product.transactions.push({ type: "OUT", amount, date: date || new Date(), remark: remark || "" });
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
@@ -173,10 +148,10 @@ export const stockOut = async (req, res) => {
   }
 };
 
-// @desc    updateTransaction
+// @desc    Update Transaction
 // @route   PUT /api/product/:productId/transaction/:transactionId
 // @access  Private
-export const updateTransaction = async (req, res) => {
+const updateTransaction = async (req, res) => {
   try {
     const { productId, transactionId } = req.params;
     const { type, amount, date, remark } = req.body;
@@ -187,17 +162,14 @@ export const updateTransaction = async (req, res) => {
     const transaction = product.transactions.id(transactionId);
     if (!transaction) return res.status(404).json({ message: "Transaction not found" });
 
-    // Adjust initialQuantity before updating
     if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
     else product.initialQuantity += transaction.amount;
 
-    // Update transaction
     transaction.type = type || transaction.type;
     transaction.amount = amount ?? transaction.amount;
     transaction.date = date || transaction.date;
     transaction.remark = remark || transaction.remark;
 
-    // Re-adjust initialQuantity
     if (transaction.type === "IN") product.initialQuantity += transaction.amount;
     else product.initialQuantity -= transaction.amount;
 
@@ -208,33 +180,28 @@ export const updateTransaction = async (req, res) => {
   }
 };
 
-// @desc    deleteTransaction
+// @desc    Delete Transaction
 // @route   DELETE /api/product/:productId/transaction/:transactionId
 // @access  Private
-export const deleteTransaction = async (req, res) => {
+const deleteTransaction = async (req, res) => {
   try {
     const { productId, transactionId } = req.params;
 
     const product = await Product.findOne({ _id: productId, user: req.userId });
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    const txIndex = product.transactions.findIndex(
-      (t) => t._id.toString() === transactionId
-    );
+    const txIndex = product.transactions.findIndex(t => t._id.toString() === transactionId);
     if (txIndex === -1) return res.status(404).json({ message: "Transaction not found" });
 
     const transaction = product.transactions[txIndex];
 
-    // Prevent negative stock
     if (transaction.type === "IN" && product.initialQuantity - transaction.amount < 0) {
       return res.status(400).json({ message: "Cannot delete, would result in negative stock" });
     }
 
-    // Adjust initialQuantity
     if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
     else product.initialQuantity += transaction.amount;
 
-    // Remove transaction
     product.transactions.splice(txIndex, 1);
 
     await product.save();
@@ -245,98 +212,77 @@ export const deleteTransaction = async (req, res) => {
   }
 };
 
-
-export const deleteTransactionById = async (req, res) => {
+// @desc    Delete Transaction by ID
+// @route   DELETE /api/transaction/:transactionId
+// @access  Private
+const deleteTransactionById = async (req, res) => {
   try {
     const { transactionId } = req.params;
 
-    // Product find karo jisme yeh transaction hai
     const product = await Product.findOne({ "transactions._id": transactionId });
+    if (!product) return res.status(404).json({ message: "Transaction not found" });
 
-    if (!product) {
-      return res.status(404).json({ message: "Transaction not found" });
-    }
+    const transaction = product.transactions.find(t => t._id.toString() === transactionId);
+    if (!transaction) return res.status(404).json({ message: "Transaction not found in product" });
 
-    // Transaction dhoondo
-    const transaction = product.transactions.find(
-      (t) => t._id.toString() === transactionId
-    );
+    if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
+    else if (transaction.type === "OUT") product.initialQuantity += transaction.amount;
 
-    if (!transaction) {
-      return res.status(404).json({ message: "Transaction not found in product" });
-    }
-
-    // 🔥 initialQuantity adjust karo (reverse effect)
-    if (transaction.type === "IN") {
-      // Agar IN delete kar rahe ho to stock ghatao
-      product.initialQuantity -= transaction.amount;
-    } else if (transaction.type === "OUT") {
-      // Agar OUT delete kar rahe ho to stock wapas badhao
-      product.initialQuantity += transaction.amount;
-    }
-
-    // Transaction ko remove karo
-    product.transactions = product.transactions.filter(
-      (t) => t._id.toString() !== transactionId
-    );
+    product.transactions = product.transactions.filter(t => t._id.toString() !== transactionId);
 
     await product.save();
-
-    res.json(product); // updated product return karo
+    res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-
-// ✅ Update Transaction By ID (without productId)
-export const updateTransactionById = async (req, res) => {
+// @desc    Update Transaction By ID
+// @route   PUT /api/transaction/:transactionId
+// @access  Private
+const updateTransactionById = async (req, res) => {
   try {
     const { transactionId } = req.params;
     const { type, amount, date, remark } = req.body;
+    const newAmount = Number(amount);
 
-    const newAmount = Number(amount); // 👈 safe conversion
-
-    // Product find karo jisme yeh transaction hai
     const product = await Product.findOne({ "transactions._id": transactionId });
+    if (!product) return res.status(404).json({ message: "Transaction not found" });
 
-    if (!product) {
-      return res.status(404).json({ message: "Transaction not found" });
-    }
-
-    // Purana transaction nikaalo
     const transaction = product.transactions.id(transactionId);
-    if (!transaction) {
-      return res.status(404).json({ message: "Transaction not found in product" });
-    }
+    if (!transaction) return res.status(404).json({ message: "Transaction not found in product" });
 
-    // 1️⃣ Purane transaction ka effect reverse karo
-    if (transaction.type === "IN") {
-      product.initialQuantity -= transaction.amount;
-    } else if (transaction.type === "OUT") {
-      product.initialQuantity += transaction.amount;
-    }
+    if (transaction.type === "IN") product.initialQuantity -= transaction.amount;
+    else if (transaction.type === "OUT") product.initialQuantity += transaction.amount;
 
-    // 2️⃣ Transaction update karo
     transaction.type = type;
     transaction.amount = newAmount;
     transaction.date = date;
     transaction.remark = remark;
 
-    // 3️⃣ Naye transaction ka effect apply karo
-    if (type === "IN") {
-      product.initialQuantity += newAmount;
-    } else if (type === "OUT") {
-      product.initialQuantity -= newAmount;
-    }
+    if (type === "IN") product.initialQuantity += newAmount;
+    else if (type === "OUT") product.initialQuantity -= newAmount;
 
     await product.save();
-
-    res.json(product); // updated product bhejo
+    res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+// CommonJS Exports
+module.exports = {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+  stockIn,
+  stockOut,
+  updateTransaction,
+  deleteTransaction,
+  deleteTransactionById,
+  updateTransactionById
 };
 
 

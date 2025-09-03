@@ -1,5 +1,6 @@
-import express from "express";
-import {
+// routes/productRoutes.js (CommonJS)
+const express = require("express");
+const {
   createProduct,
   getProducts,
   getProductById,
@@ -11,8 +12,8 @@ import {
   deleteTransaction,
   deleteTransactionById,
   updateTransactionById,
-} from "../controllers/productController.js";
-import { protect } from "../middleware/authMiddleware.js";
+} = require("../controllers/productController.js");
+const { protect } = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -30,8 +31,9 @@ router.post("/product/:id/out", protect, stockOut);
 // updateTransaction  /  deleteTransaction routes
 router.put("/product/:productId/transaction/:transactionId", protect, updateTransaction);
 router.delete("/product/:productId/transaction/:transactionId", protect, deleteTransaction);
-router.delete("/:transactionId",protect, deleteTransactionById);
-// update transaction by ID
-router.put("/transaction/:transactionId",protect, updateTransactionById);
+router.delete("/:transactionId", protect, deleteTransactionById);
 
-export default router;
+// update transaction by ID
+router.put("/transaction/:transactionId", protect, updateTransactionById);
+
+module.exports = router;

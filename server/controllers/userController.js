@@ -1,7 +1,8 @@
-import User from "../models/User.js";
-import { generateToken } from "../utils/generateToken.js";
+// controllers/userController.js (CommonJS)
+const User = require("../models/User");
+const { generateToken } = require("../utils/generateToken");
 
-export const registerUser = async (req, res, next) => {
+const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -25,7 +26,7 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -40,7 +41,7 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
-export const getProfile = async (req, res, next) => {
+const getProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -48,4 +49,10 @@ export const getProfile = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getProfile
 };

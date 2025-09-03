@@ -1,6 +1,7 @@
-import jwt from "jsonwebtoken";
+// middleware/authMiddleware.js (CommonJS)
+const jwt = require("jsonwebtoken");
 
-export const protect = (req, res, next) => {
+const protect = (req, res, next) => {
   const header = req.headers.authorization || "";
   if (!header.startsWith("Bearer ")) {
     return res.status(401).json({ message: "No token, authorization denied" });
@@ -14,3 +15,5 @@ export const protect = (req, res, next) => {
     return res.status(401).json({ message: "Token invalid or expired" });
   }
 };
+
+module.exports = { protect };

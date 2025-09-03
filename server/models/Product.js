@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+// models/Product.js (CommonJS)
+const mongoose = require("mongoose");
 
-// 👇 transaction ka schema
+// 👇 Transaction schema
 const transactionSchema = new mongoose.Schema(
   {
     type: { type: String, enum: ["IN", "OUT"], required: true },
@@ -50,8 +51,6 @@ const productSchema = new mongoose.Schema(
       maxlength: 1000,
       default: "",
     },
-
-    // 👇 ye naya field add karna hoga
     transactions: [transactionSchema],
   },
   { timestamps: true }
@@ -61,4 +60,4 @@ const productSchema = new mongoose.Schema(
 productSchema.index({ name: "text", productId: 1 });
 
 const Product = mongoose.model("Product", productSchema);
-export default Product;
+module.exports = Product;
