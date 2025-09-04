@@ -8,20 +8,132 @@ Built with **React + Redux Toolkit (frontend)** and **Node.js + Express + MongoD
 
 ---
 
-## 📂 Project Structure
+
+
+
+```markdown
+## 📦 Install & Setup MongoDB
+
+This project requires **MongoDB** (tested with version 4.2+) installed on your system.
+
+### 1. Install MongoDB
+- Download MongoDB Community Edition:  
+  [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)
+
+- Install MongoDB (default path:  
+  `C:\Program Files\MongoDB\Server\4.2`)
+
+- During installation, ensure that **MongoDB Server** is installed as a Windows Service.
+
+---
+
+### 2. Data Persistence Path (Important)
+By default, MongoDB stores data in:
 
 ```
+
+C:\Program Files\MongoDB\Server\4.2\data\db
+
+```
+
+⚠️ If you want **long-term persistent data**, it is recommended to change the data path to a separate drive like `D:\`, `E:\`, or `F:\`.
+
+Example recommended path:
+
+```
+
+D:\MKWS\_MERN\_StockManager\Data
+D:\MKWS\_MERN\_StockManager\Logs
+
+```
+
+---
+
+### 3. Setup Custom MongoDB Path
+
+1. **Create folders manually** (or let backend auto-create):
+```
+
+D:\MKWS\_MERN\_StockManager\Data
+D:\MKWS\_MERN\_StockManager\Logs
+
+```
+
+2. **Edit MongoDB config file**  
+Open:
+```
+
+C:\Program Files\MongoDB\Server\4.2\bin\mongod.cfg
+
+````
+
+Replace with:
+
+systemLog:
+  destination: file
+  path: D:\MKWS_MERN_StockManager\Logs\mongod.log
+  logAppend: true
+
+storage:
+  dbPath: D:\MKWS_MERN_StockManager\Data
+  journal:
+    enabled: true
+
+net:
+  bindIp: 127.0.0.1
+  port: 27017
+````
+
+3. **Reinstall MongoDB Service**
+
+   Open Command Prompt (as Administrator):
+
+   ```bash
+   sc stop MongoDB
+   sc delete MongoDB
+
+   cd "C:\Program Files\MongoDB\Server\4.2\bin"
+   mongod --config "C:\Program Files\MongoDB\Server\4.2\bin\mongod.cfg" --install --serviceName "MongoDB"
+   net start MongoDB
+   ```
+
+4. **Verify in MongoDB Compass**
+   Connect to:
+
+   ```
+   mongodb://localhost:27017
+   ```
+
+---
+
+### 4. .env Configuration
+
+In the project root `.env` file, update:
+
+```env
+PORT=4000
+MONGO_URI=mongodb://localhost:27017/mkws_inventory
+JWT_SECRET=replace_with_strong_secret
+DATA_DIR=D:\MKWS_MERN_StockManager\Data
+LOG_DIR=D:\MKWS_MERN_StockManager\Logs
+```
+
+---
+
+✅ Now MongoDB will always store data in your specified drive (`D:/E:/F:` etc.) and survive even after reinstalling MongoDB or Windows updates.
+
+```
+
+
+## 📂 Project Structure
+
+root
 ├── .git                        # Git repo metadata (commits, branches)
 ├── .gitignore                  # Ignore files for Git (node_modules, dist, etc.)
 ├── client                      # React frontend source code
 │   ├── .env                    # Frontend environment variables (API URL)
 │   ├── .gitignore              # Git ignore rules for frontend
 │   ├── CHANGELOG.md            # Track changes/version history
-│   ├── dist                    # Production build (generated via `npm run build`)
-│   │   ├── assets              # Minified JS/CSS bundles from Vite build
-│   │   ├── css                 # Compiled Tailwind CSS
-│   │   ├── img                 # Optimized images for production
-│   │   └── index.html          # Entry point for production frontend
 │   ├── index.html              # Entry HTML file for dev (Vite serves this)
 │   ├── jsconfig.json           # Path/alias configuration for JS imports
 │   ├── LICENSE                 # License file for project usage

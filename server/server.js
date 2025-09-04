@@ -7,6 +7,8 @@ const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+// const fs = require("fs");
+
 
 dotenv.config();
 const app = express();
@@ -24,21 +26,23 @@ app.use("/api/products", productRoutes);
 
 
 
-// // Serve frontend build (React)
-// const clientDistPath = path.join(__dirname, "../client/dist");
-// app.use(express.static(clientDistPath));
 
-// app.get(/^\/(?!api).*/, (req, res) => {
-//   res.sendFile(path.join(clientDistPath, "index.html"));
-// });
-// const clientDistPath = path.join(
-//   process.pkg ? path.dirname(process.execPath) + "/../client/dist" : __dirname + "/../client/dist"
-// );
-// app.use(express.static(clientDistPath));
 
-// app.get(/^\/(?!api).*/, (req, res) => {
-//   res.sendFile(path.join(clientDistPath, "index.html"));
-// });
+// // Ensure data + log directories exist
+// const dataDir = process.env.DATA_DIR || path.join(__dirname, "../data");
+// const logDir = process.env.LOG_DIR || path.join(__dirname, "../logs");
+
+// if (!fs.existsSync(dataDir)) {
+//   fs.mkdirSync(dataDir, { recursive: true });
+// }
+
+// if (!fs.existsSync(logDir)) {
+//   fs.mkdirSync(logDir, { recursive: true });
+// }
+
+// console.log("Data directory:", dataDir);
+// console.log("Log directory:", logDir);
+
 
 
 
