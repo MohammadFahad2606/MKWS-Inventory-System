@@ -52,10 +52,13 @@ app.use("/api/products", productRoutes);
 let clientDistPath;
 if (process.pkg) {
   // running inside pkg exe
+  console.log("Running ../../client/dist this way");
   clientDistPath = path.join(path.dirname(process.execPath), "../../client/dist");
 } else {
   // dev mode
   clientDistPath = path.join(__dirname, "../client/dist");
+
+  console.log("Running ../client/dist this way");
 }
 
 app.use(express.static(clientDistPath));

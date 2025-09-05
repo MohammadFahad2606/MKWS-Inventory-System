@@ -11,6 +11,7 @@ import TransactionFilter from "./TransactionFilter";
 import TransactionList from "./TransactionList";
 import TransactionPagination from "./TransactionPagination";
 import ExportButtons from "./ExportButtons";
+import ProductNotFound from "./ProductNotFound";
 
 export default function TransactionPage() {
   const { productId } = useParams();
@@ -92,7 +93,7 @@ export default function TransactionPage() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-  if (productId && !singleProduct) return <p>Product not found</p>;
+  if (productId && !singleProduct) return <ProductNotFound />;
 
   return (
     <div className="bg-[var(--color-background)] min-h-screen">

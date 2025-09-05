@@ -55,7 +55,7 @@ export function MaterialTailwindControllerProvider({ children }) {
     sidenavColor: "white",
     sidenavType: "white",
     transparentNavbar: true,
-    fixedNavbar: false,
+    fixedNavbar: true,
     openConfigurator: false,
 
     // new theme state

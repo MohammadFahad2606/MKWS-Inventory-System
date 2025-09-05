@@ -149,7 +149,7 @@ export function SignIn() {
             {isSubmitting ? 'Signing in...' : 'Sign In'}
           </Button>
 
-          <Typography
+          {/* <Typography
             variant="paragraph"
             className="mt-4 text-center font-medium text-[var(--color-mutedForeground)]"
           >
@@ -160,7 +160,7 @@ export function SignIn() {
             >
               Create account
             </Link>
-          </Typography>
+          </Typography> */}
         </form>
       </div>
 

@@ -27,7 +27,7 @@ export function Footer({ brandName, brandLink, routes }) {
             rel="noopener noreferrer"
             className="transition-colors font-bold"
             style={{
-              color: "var(--color-primaryForeground)",
+              color: "var(--color-foreground)",
             }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.color = "var(--color-accent)")
@@ -46,15 +46,15 @@ export function Footer({ brandName, brandLink, routes }) {
               <Typography
                 as="a"
                 href={path}
-                rel="noopener noreferrer"
+                
                 variant="small"
                 className="py-0.5 px-1 font-normal transition-colors"
-                style={{ color: "var(--color-sidebarForeground)" }}
+                style={{ color: "var(--color-foreground)" }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--color-accent)")
+                  (e.currentTarget.style.color = "var(--color-mutedForeground)")
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "var(--color-sidebarForeground)")
+                  (e.currentTarget.style.color = "var(--color-foreground)")
                 }
               >
                 {name}

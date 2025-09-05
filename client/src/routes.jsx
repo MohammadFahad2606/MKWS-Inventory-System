@@ -14,6 +14,7 @@ import Test from "./pages/dashboard/Test";
 import StockPage from "./pages/dashboard/StockPage";
 import TransactionPage from "./pages/dashboard/transactions/TransactionPage";
 import LowStockPage from "./pages/dashboard/low-stock/LowStockPage";
+import PageNotFound from "./pages/PageNotFound";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -63,12 +64,17 @@ export const routes = [
        
       },
       // product-specific route, sidebar me nahi
+      
       {
         path: "/transactions/:productId",
         element: <TransactionPage />,
         hidden: true,  // sidebar me dikha na ho
       },
-        
+      {
+        path: "*",
+        element: <PageNotFound />,
+        hidden: true, 
+      },
       
     ],
   },
@@ -85,13 +91,20 @@ export const routes = [
         element: <SignIn />,
         hidden: true,
       },
+
+
       {
-        icon: <UserPlusIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-        element: <SignUp />,
-        hidden: true,
+        path: "*",
+        element: <PageNotFound />,
+        hidden: true, 
       },
+      // {
+      //   icon: <UserPlusIcon {...icon} />,
+      //   name: "sign up",
+      //   path: "/sign-up",
+      //   element: <SignUp />,
+      //   hidden: true,
+      // },
       
     ],
   },

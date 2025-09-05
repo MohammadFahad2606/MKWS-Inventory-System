@@ -45,6 +45,8 @@ export default function LowStockPage() {
     })
     .filter((p) => p.inHand <= threshold);
 
+    // console.log('Low stock items:', lowStockItems);
+
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentItems = lowStockItems.slice(indexOfFirst, indexOfLast);
@@ -82,7 +84,7 @@ export default function LowStockPage() {
         </div>
 
         <ExportButtons
-          transactions={currentItems.map((p) => ({
+          transactions={lowStockItems.map((p) => ({
             productName: p.name,
             type: 'Low Stock',
             amount: p.inHand,
